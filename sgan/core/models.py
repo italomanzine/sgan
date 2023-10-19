@@ -42,7 +42,7 @@ class Resultado(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     prova = models.ForeignKey(Prova, on_delete=models.CASCADE)
     # Outros campos específicos do relacionamento 'resultado'
-    tempo = models.DurationField(default=timezone.now)# exemplo de armazenamento de dados "00:02:30", "01:30:45.000500" vai armazenando de "HH:MM:SS.ssssss" (horas, minutos, segundos e microssegundos).
+    tempo = models.DurationField()# exemplo de armazenamento de dados "00:02:30", "01:30:45.000500" vai armazenando de "HH:MM:SS.ssssss" (horas, minutos, segundos e microssegundos).
     classificacao = models.PositiveIntegerField()  # Campo para armazenar a classificação como número inteiro
     data_prova = models.DateField()
 
