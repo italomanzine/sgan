@@ -14,6 +14,16 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sutil sombra para elevação */
 }
 
+.login-title {
+  color: #FFFFFF; /* Cor branca para o título */
+  text-align: center; /* Centraliza o título horizontalmente */
+  font-size: 4rem; /* Tamanho do título ajustado para destaque */
+  font-weight: 300; /* Fonte menos grossa para um look moderno */
+  margin: 2rem 0; /* Aumenta o espaço acima e abaixo do título */
+  letter-spacing: 0.1rem; /* Espaçamento entre as letras para melhor legibilidade */
+  text-transform: uppercase; /* Título em maiúsculas */
+}
+
 .logo {
   display: flex;
   justify-content: center;
