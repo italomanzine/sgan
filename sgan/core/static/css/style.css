@@ -1,0 +1,77 @@
+/* static/css/style.css */
+body {
+  background-color: #1A374D;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografia mais moderna */
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 100px auto; /* Aumentar a margem para centralizar verticalmente */
+  padding: 30px;
+  background-color: #162C39;
+  border-radius: 10px; /* Cantos mais arredondados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sutil sombra para elevação */
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px; /* Aumentar o espaço entre as logos e o formulário */
+}
+
+.logo img {
+  max-width: 80px;
+  max-height: 80px;
+  width: auto;
+  height: auto;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  margin-bottom: 15px; /* Aumentar o espaçamento */
+  padding: 15px; /* Mais espaço dentro dos campos */
+  border-radius: 5px;
+  border: 1px solid #406882; /* Bordas mais definidas */
+}
+
+.btn-primary {
+  background-color: #4B89AC; /* Cor mais vibrante */
+  border-color: #3A6D8C;
+  padding: 15px; /* Mais espaço no botão */
+  font-size: 16px; /* Tamanho de fonte maior */
+  font-weight: bold; /* Texto em negrito */
+  margin-bottom: 15px; /* Espaçamento após o botão */
+  transition: background-color 0.3s; /* Transição suave para o hover */
+}
+
+.btn-primary:hover {
+  background-color: #3A6D8C; /* Efeito hover */
+}
+
+.forgot-password,
+.sign-up {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #79A3B1;
+  font-size: 14px; /* Tamanho de fonte sutilmente menor */
+}
+
+.forgot-password:hover,
+.sign-up:hover {
+  color: #A3CEF1;
+  text-decoration: underline; /* Sublinhar no hover */
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    margin: 50px 20px; /* Menos margem vertical e mais horizontal em telas menores */
+  }
+}

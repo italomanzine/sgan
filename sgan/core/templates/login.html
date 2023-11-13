@@ -1,0 +1,31 @@
+<!-- templates/login.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SGAN</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="login-container">
+      <div class="logo">
+        <img src="{% static 'img/brasao_UFSC_vertical_sigla_fundo_escuro.png' %}" alt="UFSC Logo">
+        <img src="{% static 'img/logo.png' %}" alt="AAACA Logo">
+        <img src="{% static 'img/LOGO-GREMIO-NEW.png' %}" alt="Grêmio Fronteira Logo">
+      </div>
+      <form method="post" class="form-login">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Email" required class="form-control">
+        <input type="password" name="password" placeholder="Password" required class="form-control">
+        <button type="submit" class="btn btn-primary">Log In</button>
+        <a href="{% url 'password_reset' %}" class="forgot-password">Esqueci minha senha</a>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
