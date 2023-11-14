@@ -33,7 +33,7 @@
       </div>
       <form method="post" class="form-login">
         {% csrf_token %}
-        <input type="email" name="email" placeholder="Email" required class="form-control">
+        <input type="text" name="username" placeholder="Email" required class="form-control">
         <input type="password" name="password" placeholder="Password" required class="form-control">
         <button type="submit" class="btn btn-primary">Log In</button>
         <a href="{% url 'password_reset' %}" class="forgot-password">Esqueci minha senha</a>
