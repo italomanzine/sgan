@@ -85,3 +85,19 @@ body {
     margin: 50px 20px; /* Menos margem vertical e mais horizontal em telas menores */
   }
 }
+
+/* Estilos para o toast */
+.toast {
+  z-index: 1060; /* Garante que o toast fique acima de outros elementos */
+  animation: fadein 0.5s, fadeout 0.5s 2.5s; /* Animação de entrada e saída */
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

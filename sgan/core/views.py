@@ -1,18 +1,27 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     return render(request, 'index.html')
 
-def login(request):
+def login_view(request):
     return render(request, 'login.html')
 
 def user(request):
     return render(request, 'user.html')
 
-def login_view(request):
-    # Adicione aqui a lógica para o login
+def custom_login_view(request):  # Esta é a função renomeada
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login_view(request, user)  # Use o nome renomeado aqui
+            return redirect('index')
+        else:
+            messages.error(request, 'Usuário ou senha incorretos.')
     return render(request, 'login.html')
 
 def signup_view(request):
