@@ -1,0 +1,61 @@
+<!-- templates/login.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SGAN</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body>
+  <!-- Toast para mensagens de erro -->
+  <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 20px; right: 20px;">
+    <div class="d-flex">
+      <div class="toast-body">
+        Usuário ou senha incorretos.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="login-container">
+      <!-- Título da página de login -->
+      <h1 class="login-title">SGAN</h1>
+      <div class="logo">
+        <img src="{% static 'img/brasao_UFSC_vertical_sigla_fundo_escuro.png' %}" alt="UFSC Logo">
+        <img src="{% static 'img/logo.png' %}" alt="AAACA Logo">
+        <img src="{% static 'img/LOGO-GREMIO-NEW.png' %}" alt="Grêmio Fronteira Logo">
+      </div>
+      <form method="post" class="form-login">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Email" required class="form-control">
+        <input type="password" name="password" placeholder="Password" required class="form-control">
+        <button type="submit" class="btn btn-primary">Log In</button>
+        <a href="{% url 'password_reset' %}" class="forgot-password">Esqueci minha senha</a>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      // Verifica se há alguma mensagem de erro para exibir
+      {% if messages %}
+        var showToast = true;
+      {% else %}
+        var showToast = false;
+      {% endif %}
+  
+      // Se showToast for true, exibe o toast
+      if (showToast) {
+        var toastElement = new bootstrap.Toast(document.getElementById('errorToast'));
+        toastElement.show();
+      }
+    });
+  </script>  
+</body>
+</html>
