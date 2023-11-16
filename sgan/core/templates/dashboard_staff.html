@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard Fictício{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #ffc107;
+            padding: 10px;
+            color: #333;
+            text-align: center;
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            overflow-x: hidden;
+        }
+
+        nav a {
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+            color: #333;
+        }
+
+        section {
+            padding: 20px;
+            margin-left: 220px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="dashboard-title">Treinador: {{ user.username }}</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Cadastrar Atleta</a>
+        <a href="#">Cadastrar Treino</a>
+        <a href="#">Ver Presença</a>
+        <a href="#">Desempenho de Atleta</a>
+    </nav>
+
+    <section>
+        <h2>Bem-vindo ao Dashboard!</h2>
+        <p>Aqui você pode visualizar informações importantes e realizar ações específicas.</p>
+        <!-- Adicione seus elementos de dashboard aqui -->
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Dashboard Fictício</p>
+    </footer>
+
+    <script>
+        // Simulação do nome do treinador após o login (substitua isso com sua lógica de autenticação)
+        var nomeDoTreinador = "{{ user.username }}";
+        document.getElementById("dashboard-title").innerText = "Treinador: " + nomeDoTreinador;
+    </script>
+
+</body>
+</html>
