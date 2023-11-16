@@ -92,6 +92,93 @@ body {
   animation: fadein 0.5s, fadeout 0.5s 2.5s; /* Animação de entrada e saída */
 }
 
+/* Estilos para o Sidebar Menu */
+.sidebar {
+  width: 250px; /* Largura do sidebar */
+  height: 100%; /* Altura total da janela de visualização */
+  position: fixed; /* Fixado na tela */
+  left: 0; /* Alinhado à esquerda */
+  top: 0; /* Alinhado ao topo */
+  background-color: #162C39; /* Cor de fundo do sidebar */
+  overflow-y: auto; /* Barra de rolagem se o conteúdo exceder a altura da tela */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+  z-index: 1000; /* Garante que o sidebar fique acima de outros elementos */
+  transition: left 0.3s; /* Transição suave para a movimentação do sidebar */
+}
+
+.sidebar .menu {
+  padding-top: 60px; /* Espaçamento no topo para evitar sobreposição com o botão */
+}
+
+.sidebar .menu ul {
+  list-style-type: none; /* Remove estilos de lista */
+  padding: 0; /* Remove padding padrão */
+  margin: 0; /* Remove margens padrão */
+}
+
+.sidebar .menu ul li {
+  padding: 10px; /* Espaçamento interno dos itens da lista */
+  border-bottom: 1px solid #406882; /* Bordas inferiores para separar os itens */
+}
+
+.sidebar .menu ul li a {
+  color: #fff; /* Cor do texto dos links */
+  text-decoration: none; /* Remove sublinhado dos links */
+  display: block; /* Força o link a preencher o espaço horizontal */
+  transition: background-color 0.3s; /* Transição suave para o hover */
+}
+
+.sidebar .menu ul li a:hover {
+  background-color: #4B89AC; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilos para o botão de alternância do Sidebar */
+.sidebar-toggle {
+  position: fixed; /* Posicionamento fixo na página */
+  top: 20px; /* Ajuste conforme necessário para alinhar com o topo do sidebar */
+  left: 10px; /* Ajuste para ficar ao lado do sidebar */
+  z-index: 1001; /* Garante que o botão fique acima do sidebar */
+  background-color: #4B89AC; /* Cor de fundo */
+  color: #fff; /* Cor do texto */
+  border: none; /* Sem borda */
+  padding: 10px 15px; /* Espaçamento interno */
+  font-size: 1.5rem; /* Tamanho do texto */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: all 0.3s; /* Transição suave para todas as propriedades */
+}
+
+/* Altera a posição do botão quando o sidebar está ativo */
+.sidebar.active ~ .sidebar-toggle {
+  left: 240px; /* Ajuste baseado na largura do sidebar */
+}
+
+/* Altera o ícone do botão quando o sidebar está ativo */
+.sidebar.active ~ .sidebar-toggle::before {
+  content: '←'; /* Caractere de seta para esquerda */
+  font-size: 24px; /* Tamanho do ícone da seta */
+  line-height: 10px; /* Altura da linha para o ícone da seta */
+}
+
+@media (max-width: 768px) {
+  /* Sidebar e botão responsivos para dispositivos móveis */
+  .sidebar.active ~ .sidebar-toggle {
+    left: calc(100% - 60px); /* Posiciona o botão baseado na largura da tela */
+  }
+}
+
+.center-content {
+  margin-left: 250px; /* Ajusta a margem esquerda para não ser sobreposta pelo sidebar */
+  background-color: #fff; /* Cor de fundo do conteúdo principal */
+  color: #000; /* Cor do texto do conteúdo principal */
+  /* Adicione mais estilos conforme necessário */
+}
+
+@media (max-width: 768px) {
+  .center-content {
+    margin-left: 0; /* Remove a margem quando o sidebar não está visível */
+  }
+}
+
 @keyframes fadein {
   from { opacity: 0; }
   to { opacity: 1; }

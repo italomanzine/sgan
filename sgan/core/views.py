@@ -9,6 +9,18 @@ from .forms import CustomAuthenticationForm
 def index(request):
     return render(request, 'index.html')
 
+def treinos(request):
+    return render(request, 'treinos.html')
+
+def atletas(request):
+    return render(request, 'atletas.html')
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def resultados(request):
+    return render(request, 'resultados.html')
+
 # def login(request):
 #     return render(request, 'login.html')
 
