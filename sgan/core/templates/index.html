@@ -4,25 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Django 1 - Index</title>
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <center>
-    <h1>Index</h1>
+    {% include 'sidebar.html' %}
+    <div class="center-content">
+        <center>
+        <h1>Index</h1>
 
-    <!-- Saudação ao usuário logado -->
-    {% if user.is_authenticated %}
-        <p>Olá, {{ user.get_full_name|default:user.username }}!</p>
-        <!-- Botão de logout -->
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Logout">
-        </form>
-    {% endif %}
+        <!-- Saudação ao usuário logado -->
+        {% if user.is_authenticated %}
+            <p>Olá, {{ user.get_full_name|default:user.username }}!</p>
+            <!-- Botão de logout -->
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Logout">
+            </form>
+        {% endif %}
 
-    <img src="{% static 'images/django.png' %}"/>
-    <!-- Restante do conteúdo -->
-    </center>
+        <img src="{% static 'images/django.png' %}"/>
+        <!-- Restante do conteúdo -->
+        </center>
+    </div>
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, user, login_view
+from .views import atletas, dashboard, index, resultados, treinos, user, login_view
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
@@ -18,4 +18,10 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    # URLs do Menu Lateral
+    path('visao-geral/', dashboard, name='dashboard'),
+    path('atletas/', atletas, name='atletas'),
+    path('treinos/', treinos, name='treinos'),
+    path('resultados/', resultados, name='resultados'),
 ]
