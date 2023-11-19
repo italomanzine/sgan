@@ -4,12 +4,13 @@
 body {
   background-color: #f7f8fc;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Define a tipografia padrão */
+  padding-top: 60px; /* Adiciona um espaço no topo para o header */
 }
 
 /* Container de Login */
 .login-container {
   max-width: 400px;
-  margin: 100px auto; /* Centraliza o container */
+  margin: 0px auto; /* Centraliza o container */
   padding: 30px;
   background-color: #162c39; /* Cor de fundo escura para contraste */
   border-radius: 10px; /* Bordas arredondadas */
@@ -186,11 +187,98 @@ body {
 
 /* Alinha o botão de alternância à direita quando o sidebar está ativo */
 .sidebar.active ~ .sidebar-toggle {
-  left: 240px; /* Ajuste baseado na largura do sidebar */
+  left: 190px; /* Ajuste baseado na largura do sidebar */
+}
+
+/* Estilo do cabeçalho */
+header {
+  background: #f8f9fa; /* Cor de fundo claro */
+  padding: 0.5rem 1rem; /* Espaçamento interno */
+  display: flex; /* Uso de flexbox para alinhamento */
+  justify-content: space-between; /* Espaçamento entre os itens */
+  align-items: center; /* Alinhamento vertical dos itens */
+  border-bottom: 1px solid #dee2e6; /* Linha divisória na parte inferior */
+  position: fixed; /* Fixa o header no topo */
+  top: 0;
+  left: 250px; /* Espaço para o sidebar */
+  right: 0;
+  z-index: 1050; /* Garante que o header fica acima do sidebar */
+}
+
+/* Estilo do container do título dentro do cabeçalho */
+.header-container h1 {
+  margin: 0; /* Remove margem padrão */
+  font-size: 1.5rem; /* Tamanho da fonte do título */
+  color: #333; /* Cor do texto escuro */
+  background: #f8f9fa; /* Cor de fundo claro */
+}
+
+/* Estilo da navegação do usuário */
+.user-nav {
+  display: flex; /* Uso de flexbox para alinhamento */
+  align-items: center; /* Alinhamento vertical dos itens */
+  gap: 1rem; /* Espaço entre os elementos da navegação */
+  margin-left: auto; /* Alinha à direita */
+}
+
+/* Estilo dos links da navegação do usuário */
+.user-nav a, .user-nav form {
+  color: #333; /* Cor do texto dos links */
+  text-decoration: none; /* Remove o sublinhado dos links */
+  font-size: 1.2rem; /* Tamanho da fonte dos links */
+  display: flex; /* Garante alinhamento adequado dos ícones e texto */
+}
+
+/* Estilo para o nome do usuário */
+.username, .logout-form, .admin-link, .home-link, .login-link {
+  font-size: 1rem; /* Tamanho da fonte do nome do usuário */
+  color: #555; /* Cor do texto do nome do usuário */
+}
+
+/* Estilo adicional para os ícones do FontAwesome usados nos links */
+.fas {
+  margin-right: 8px; /* Espaço à direita do ícone */
+}
+
+/* Estilo para o botão de logout dentro do formulário */
+.logout-button {
+  background: none; /* Remove fundo padrão */
+  border: none; /* Remove borda padrão */
+  cursor: pointer; /* Muda o cursor para indicar clicabilidade */
+  color: #333; /* Cor do ícone de logout */
+  font-size: 1.2rem; /* Tamanho do ícone de logout */
+  padding: 0; /* Remove o espaçamento interno padrão */
+}
+
+/* Adiciona um efeito visual ao passar o mouse sobre o botão de logout */
+.logout-button:hover {
+  color: #000; /* Escurece a cor do ícone ao passar o mouse */
+}
+
+/* Estilo para esconder o formulário de logout e mostrar apenas o ícone */
+.logout-form {
+  display: flex; /* Uso de flexbox para alinhamento */
+}
+
+/* Adicione este estilo em seu arquivo style.css */
+.development-container i {
+  color: #007bff; /* Cor Bootstrap para ícones */
+}
+
+.development-container h1 {
+  color: #343a40; /* Cor Bootstrap para títulos */
+}
+
+.development-container p {
+  color: #6c757d; /* Cor Bootstrap para parágrafos */
 }
 
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
+  header {
+    left: 60px; /* Espaço para o sidebar minimizado */
+  }
+
   .sidebar.active ~ .sidebar-toggle {
     left: calc(100% - 60px); /* Ajusta a posição do botão */
   }

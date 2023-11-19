@@ -20,7 +20,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     # URLs do Menu Lateral
-    path('visao-geral/', dashboard, name='dashboard'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('atletas/', atletas, name='atletas'),
     path('treinos/', treinos, name='treinos'),
     path('resultados/', resultados, name='resultados'),

@@ -7,19 +7,19 @@ from .forms import CustomAuthenticationForm
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'titulo_pagina': 'Página Inicial'})
 
 def treinos(request):
-    return render(request, 'treinos.html')
+    return render(request, 'treinos.html', {'titulo_pagina': 'Treinos'})
 
 def atletas(request):
-    return render(request, 'atletas.html')
+    return render(request, 'atletas.html', {'titulo_pagina': 'Atletas'})
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'dashboard.html', {'titulo_pagina': 'Dashboard'})
 
 def resultados(request):
-    return render(request, 'resultados.html')
+    return render(request, 'resultados.html', {'titulo_pagina': 'Resultados'})
 
 # def login(request):
 #     return render(request, 'login.html')
@@ -56,3 +56,4 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
