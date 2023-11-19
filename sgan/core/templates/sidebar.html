@@ -1,12 +1,35 @@
 <!-- templates/_sidebar.html -->
 <aside class="sidebar">
-    <nav class="menu">
-      <ul>
-        <li><a href="{% url 'dashboard' %}"><span>Visão Geral</span></a></li>
-        <li><a href="{% url 'atletas' %}"><span>Atletas</span></a></li>
-        <li><a href="{% url 'treinos' %}"><span>Treinos</span></a></li>
-        <li><a href="{% url 'resultados' %}"><span>Resultados</span></a></li>
-      </ul>
-    </nav>
+  <nav class="menu">
+    <ul>
+      <li>
+        <a href="{% url 'dashboard' %}"
+          ><i class="fas fa-tachometer-alt icon"></i
+          ><span class="link-text">Visão Geral</span></a
+        >
+      </li>
+      <li>
+        <a href="{% url 'atletas' %}"
+          ><i class="fas fa-running icon"></i
+          ><span class="link-text">Atletas</span></a
+        >
+      </li>
+      <li>
+        <a href="{% url 'treinos' %}"
+          ><i class="fas fa-stopwatch icon"></i
+          ><span class="link-text">Treinos</span></a
+        >
+      </li>
+      <li>
+        <a href="{% url 'resultados' %}"
+          ><i class="fas fa-chart-line icon"></i
+          ><span class="link-text">Resultados</span></a
+        >
+      </li>
+    </ul>
+  </nav>
 </aside>
-<button class="sidebar-toggle">☰ Menu</button>
+<button class="sidebar-toggle">
+  <i class="fas fa-arrow-left"></i>
+  <!--<span>Menu</span><!-- Envolve o texto do menu em um span para esconder quando recolhido -->
+</button>

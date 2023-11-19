@@ -1,184 +1,218 @@
 /* static/css/style.css */
+
+/* Estilos Base */
 body {
-  background-color: #1A374D;
-  color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografia mais moderna */
+  background-color: #f7f8fc;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Define a tipografia padrão */
 }
 
+/* Container de Login */
 .login-container {
   max-width: 400px;
-  margin: 100px auto; /* Aumentar a margem para centralizar verticalmente */
+  margin: 100px auto; /* Centraliza o container */
   padding: 30px;
-  background-color: #162C39;
-  border-radius: 10px; /* Cantos mais arredondados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sutil sombra para elevação */
+  background-color: #162c39; /* Cor de fundo escura para contraste */
+  border-radius: 10px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
 }
 
+/* Título do Login */
 .login-title {
-  color: #FFFFFF; /* Cor branca para o título */
-  text-align: center; /* Centraliza o título horizontalmente */
-  font-size: 4rem; /* Tamanho do título ajustado para destaque */
-  font-weight: 300; /* Fonte menos grossa para um look moderno */
-  margin: 2rem 0; /* Aumenta o espaço acima e abaixo do título */
-  letter-spacing: 0.1rem; /* Espaçamento entre as letras para melhor legibilidade */
-  text-transform: uppercase; /* Título em maiúsculas */
+  color: #ffffff; /* Título em branco para contraste */
+  text-align: center; /* Centraliza o título */
+  font-size: 4rem; /* Tamanho grande para destaque */
+  font-weight: 300; /* Peso da fonte para um visual mais fino */
+  margin: 2rem 0; /* Espaçamento vertical */
+  letter-spacing: 0.1rem; /* Espaçamento entre letras */
+  text-transform: uppercase; /* Texto em maiúsculo */
 }
 
+/* Logo */
 .logo {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 40px; /* Aumentar o espaço entre as logos e o formulário */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 20px; /* Espaço entre os elementos */
+  margin-bottom: 40px; /* Espaçamento abaixo do logo */
 }
 
+/* Imagem do Logo */
 .logo img {
   max-width: 80px;
   max-height: 80px;
-  width: auto;
-  height: auto;
 }
 
+/* Formulário de Login */
 .form-login {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Organiza os campos verticalmente */
 }
 
+/* Campos de Formulário */
 .form-control {
-  margin-bottom: 15px; /* Aumentar o espaçamento */
-  padding: 15px; /* Mais espaço dentro dos campos */
-  border-radius: 5px;
-  border: 1px solid #406882; /* Bordas mais definidas */
+  margin-bottom: 15px; /* Espaçamento entre os campos */
+  padding: 15px; /* Espaçamento interno */
+  border-radius: 5px; /* Bordas arredondadas dos campos */
+  border: 1px solid #406882; /* Cor da borda */
 }
 
+/* Botão Primário */
 .btn-primary {
-  background-color: #4B89AC; /* Cor mais vibrante */
-  border-color: #3A6D8C;
-  padding: 15px; /* Mais espaço no botão */
-  font-size: 16px; /* Tamanho de fonte maior */
-  font-weight: bold; /* Texto em negrito */
-  margin-bottom: 15px; /* Espaçamento após o botão */
-  transition: background-color 0.3s; /* Transição suave para o hover */
+  background-color: #4b89ac; /* Cor de fundo */
+  border-color: #3a6d8c; /* Cor da borda */
+  padding: 15px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  font-weight: bold; /* Negrito */
+  margin-bottom: 15px; /* Espaçamento abaixo do botão */
 }
 
+/* Hover do Botão Primário */
 .btn-primary:hover {
-  background-color: #3A6D8C; /* Efeito hover */
+  background-color: #3a6d8c; /* Cor de fundo ao passar o mouse */
 }
 
-.forgot-password,
-.sign-up {
+/* Links de Esqueci a Senha e Cadastro */
+.forgot-password, .sign-up {
   display: block;
   text-align: center;
-  margin-top: 10px;
-  color: #79A3B1;
-  font-size: 14px; /* Tamanho de fonte sutilmente menor */
+  margin-top: 10px; /* Espaçamento acima dos links */
+  color: #79a3b1; /* Cor dos links */
+  font-size: 14px; /* Tamanho da fonte menor */
 }
 
-.forgot-password:hover,
-.sign-up:hover {
-  color: #A3CEF1;
-  text-decoration: underline; /* Sublinhar no hover */
+/* Hover dos Links de Esqueci a Senha e Cadastro */
+.forgot-password:hover, .sign-up:hover {
+  color: #a3cef1; /* Cor ao passar o mouse */
+  text-decoration: underline; /* Sublinha ao passar o mouse */
 }
 
-@media (max-width: 768px) {
-  .login-container {
-    margin: 50px 20px; /* Menos margem vertical e mais horizontal em telas menores */
-  }
-}
-
-/* Estilos para o toast */
+/* Toast Notification */
 .toast {
-  z-index: 1060; /* Garante que o toast fique acima de outros elementos */
-  animation: fadein 0.5s, fadeout 0.5s 2.5s; /* Animação de entrada e saída */
+  z-index: 1060; /* Posição na pilha */
+  animation: fadein 0.5s, fadeout 0.5s 2.5s; /* Animações de entrada e saída */
 }
 
-/* Estilos para o Sidebar Menu */
+/* Sidebar */
 .sidebar {
-  width: 250px; /* Largura do sidebar */
-  height: 100%; /* Altura total da janela de visualização */
-  position: fixed; /* Fixado na tela */
+  width: 250px; /* Largura padrão do sidebar */
+  height: 100vh; /* Altura total da tela */
+  position: fixed; /* Fixo na tela */
   left: 0; /* Alinhado à esquerda */
   top: 0; /* Alinhado ao topo */
-  background-color: #162C39; /* Cor de fundo do sidebar */
-  overflow-y: auto; /* Barra de rolagem se o conteúdo exceder a altura da tela */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
-  z-index: 1000; /* Garante que o sidebar fique acima de outros elementos */
-  transition: left 0.3s; /* Transição suave para a movimentação do sidebar */
+  background-color: #162c39; /* Cor de fundo */
+  overflow-x: hidden; /* Esconde o overflow horizontal */
+  overflow-y: auto; /* Permite scroll vertical se necessário */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra para efeito de profundidade */
+  z-index: 1000;  /* Garante que o sidebar fique acima de outros elementos */
+  transition: width 0.3s; /* Transição suave da largura */
+  padding-top: 60px; /* Espaçamento superior */
 }
 
+/* Menu do Sidebar */
 .sidebar .menu {
-  padding-top: 60px; /* Espaçamento no topo para evitar sobreposição com o botão */
+  padding-top: 60px; /* Espaçamento superior */
 }
 
+/* Lista do Menu */
 .sidebar .menu ul {
-  list-style-type: none; /* Remove estilos de lista */
-  padding: 0; /* Remove padding padrão */
-  margin: 0; /* Remove margens padrão */
+  list-style-type: none; /* Remove marcadores de lista */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margens */
 }
 
+/* Itens da Lista */
 .sidebar .menu ul li {
-  padding: 10px; /* Espaçamento interno dos itens da lista */
-  border-bottom: 1px solid #406882; /* Bordas inferiores para separar os itens */
+  padding: 10px; /* Espaçamento interno */
+  border-bottom: 1px solid #406882; /* Linha divisória */
 }
 
+/* Links dos Itens */
 .sidebar .menu ul li a {
-  color: #fff; /* Cor do texto dos links */
-  text-decoration: none; /* Remove sublinhado dos links */
-  display: block; /* Força o link a preencher o espaço horizontal */
-  transition: background-color 0.3s; /* Transição suave para o hover */
+  color: #fff; /* Cor do texto */
+  text-decoration: none; /* Sem sublinhado */
+  display: block; /* Ocupa toda a largura disponível */
+  transition: background-color 0.3s; /* Transição suave do background */
 }
 
+/* Hover dos Links */
 .sidebar .menu ul li a:hover {
-  background-color: #4B89AC; /* Cor de fundo ao passar o mouse */
+  background-color: #4b89ac; /* Cor de fundo ao passar o mouse */
 }
 
-/* Estilos para o botão de alternância do Sidebar */
+/* Botão de Alternância do Sidebar */
 .sidebar-toggle {
   position: fixed; /* Posicionamento fixo na página */
-  top: 20px; /* Ajuste conforme necessário para alinhar com o topo do sidebar */
-  left: 10px; /* Ajuste para ficar ao lado do sidebar */
+  top: 0; /* Ajuste conforme necessário para alinhar com o topo do sidebar */
+  left: 0; /* Ajuste para ficar ao lado do sidebar */
   z-index: 1001; /* Garante que o botão fique acima do sidebar */
-  background-color: #4B89AC; /* Cor de fundo */
+  background-color: #4b89ac; /* Cor de fundo */
   color: #fff; /* Cor do texto */
   border: none; /* Sem borda */
+  width: 60px; /* Largura do botão */
   padding: 10px 15px; /* Espaçamento interno */
-  font-size: 1.5rem; /* Tamanho do texto */
-  cursor: pointer; /* Muda o cursor para indicar que é clicável */
-  transition: all 0.3s; /* Transição suave para todas as propriedades */
+  font-size: 1.5rem; /* Tamanho do ícone */
+  cursor: pointer;  /* Muda o cursor para indicar que é clicável */
+  /*transition: all 0.3s; /* Transição suave de todas as propriedades */
 }
 
-/* Altera a posição do botão quando o sidebar está ativo */
-.sidebar.active ~ .sidebar-toggle {
-  left: 240px; /* Ajuste baseado na largura do sidebar */
+/* Estilos de Ícones e Texto dos Links */
+.icon {
+  margin-right: 10px; /* Espaçamento à direita dos ícones */
+  vertical-align: middle; /* Alinhamento vertical dos ícones com o texto */
 }
 
-/* Altera o ícone do botão quando o sidebar está ativo */
-.sidebar.active ~ .sidebar-toggle::before {
-  content: '←'; /* Caractere de seta para esquerda */
+.link-text {
+  vertical-align: middle; /* Alinhamento vertical do texto com os ícones */
+}
+
+/* Sidebar Minimizado */
+.sidebar.minimized {
+  width: 60px; /* Largura do sidebar minimizado */
+  padding-top: 60px; /* Espaço suficiente para o botão de alternância */
+  content: '☰'; /* Caractere de seta para esquerda */
   font-size: 24px; /* Tamanho do ícone da seta */
   line-height: 10px; /* Altura da linha para o ícone da seta */
 }
 
+/* Ocultar Texto no Sidebar Minimizado */
+.sidebar.minimized .menu ul li a span {
+  display: none; /* Oculta o texto dos links */
+}
+
+/* Ajustar Margem do Conteúdo Principal */
+.sidebar.minimized ~ .center-content {
+  margin-left: 60px; /* Ajuste conforme a nova largura do sidebar */
+}
+
+/* Alinha o botão de alternância à direita quando o sidebar está ativo */
+.sidebar.active ~ .sidebar-toggle {
+  left: 240px; /* Ajuste baseado na largura do sidebar */
+}
+
+/* Media Queries para Responsividade */
 @media (max-width: 768px) {
-  /* Sidebar e botão responsivos para dispositivos móveis */
   .sidebar.active ~ .sidebar-toggle {
-    left: calc(100% - 60px); /* Posiciona o botão baseado na largura da tela */
+    left: calc(100% - 60px); /* Ajusta a posição do botão */
   }
-}
 
-.center-content {
-  margin-left: 250px; /* Ajusta a margem esquerda para não ser sobreposta pelo sidebar */
-  background-color: #fff; /* Cor de fundo do conteúdo principal */
-  color: #000; /* Cor do texto do conteúdo principal */
-  /* Adicione mais estilos conforme necessário */
-}
-
-@media (max-width: 768px) {
   .center-content {
-    margin-left: 0; /* Remove a margem quando o sidebar não está visível */
+    margin-left: 0; /* Sem margem quando o sidebar não está visível */
+  }
+
+  .sidebar {
+    width: 60px; /* Largura do sidebar em telas pequenas */
+  }
+
+  .sidebar.minimized {
+    width: 60px; /* Largura mantida em telas pequenas */
+  }
+
+  .sidebar ~ .center-content {
+    margin-left: 60px; /* Ajuste de margem em telas pequenas */
   }
 }
 
+/* Animações */
 @keyframes fadein {
   from { opacity: 0; }
   to { opacity: 1; }
