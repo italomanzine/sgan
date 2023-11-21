@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import atletas, dashboard, index, resultados, treinos, user, login_view
+from .views import atletas, dashboard, index, resultados, treinos, user, login_view, create_treino
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
@@ -24,4 +24,7 @@ urlpatterns = [
     path('atletas/', atletas, name='atletas'),
     path('treinos/', treinos, name='treinos'),
     path('resultados/', resultados, name='resultados'),
+
+    #URLs para treinos
+    path('treinos/create/', create_treino, name='create_treino'),
 ]

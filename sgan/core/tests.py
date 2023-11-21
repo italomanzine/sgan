@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from .models import Treino
 
 # testes automatizados para o login
 class LoginTestCase(TestCase):
@@ -45,3 +46,60 @@ class LoginTestCase(TestCase):
 
     def tearDown(self):
         self.user.delete()
+
+# testes automatizados para o treinos
+class TreinosTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Criar dados de teste que serão usados em todos os testes
+        User = get_user_model()
+        cls.staff_user = User.objects.create_user(
+            email='staff@example.com',
+            password='testpassword123',
+            is_staff=True,
+            cpf='12345678901'
+        )
+        cls.regular_user = User.objects.create_user(
+            email='user@example.com',
+            password='testpassword123',
+            cpf='10987654321'
+        )
+        cls.treinos_url = reverse('treinos')
+        
+    def test_treinos_page_status_code_for_staff(self):
+        self.client.login(email='staff@example.com', password='testpassword123')
+        response = self.client.get(self.treinos_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_treinos_page_status_code_for_regular_user(self):
+        self.client.login(email='user@example.com', password='testpassword123')
+        response = self.client.get(self.treinos_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_treino_button_visible_for_staff(self):
+        self.client.login(email='staff@example.com', password='testpassword123')
+        response = self.client.get(self.treinos_url)
+        self.assertContains(response, 'Criar Treino')
+
+    def test_create_treino_button_not_visible_for_regular_user(self):
+        self.client.login(email='user@example.com', password='testpassword123')
+        response = self.client.get(self.treinos_url)
+        self.assertNotContains(response, 'Criar Treino')
+
+    def test_create_treino_modal_form(self):
+        self.client.login(email='staff@example.com', password='testpassword123')
+        response = self.client.post(reverse('create_treino'), data={
+            'descricao': 'Teste de Treino',
+            'data_treino': '2023-01-01',
+            'PSE_treinador': '5',
+            # ... other form fields ...
+        })
+        # Check if the treino was created
+        self.assertEqual(Treino.objects.count(), 1)
+        self.assertEqual(Treino.objects.first().descricao, 'Teste de Treino')
+
+    def tearDown(self):
+        if self.staff_user.id is not None:
+            self.staff_user.delete()
+        if self.regular_user.id is not None:
+            self.regular_user.delete()

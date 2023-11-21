@@ -273,6 +273,103 @@ header {
   color: #6c757d; /* Cor Bootstrap para parágrafos */
 }
 
+/* Estilos personalizados para a página de treinos */
+
+/* Estilo para a tabela de treinos */
+.table-treinos {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Estilo para os botões de ação */
+.btn-acoes {
+  font-size: 0.875rem; /* Tamanho menor para os botões de ação */
+}
+
+/* Estilo para o modal de criação de treino */
+.modal-treino .modal-content {
+  border-radius: 0.3rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o botão de criar treino */
+.btn-criar-treino {
+  background-color: #28a745; /* Verde Bootstrap */
+  border-color: #28a745;
+  color: #fff;
+}
+
+.btn-criar-treino:hover {
+  background-color: #218838; /* Verde escuro ao passar o mouse */
+  border-color: #1e7e34;
+}
+
+/* Estilo para o botão desabilitado se o usuário não tiver permissão */
+.btn-criar-treino.disabled, 
+.btn-criar-treino:disabled {
+  background-color: #6c757d; /* Cinza Bootstrap para desabilitado */
+  border-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Estilo para o multi-select de atletas */
+.multi-select-atletas .form-control {
+  height: auto; /* Altura automática para se ajustar ao conteúdo */
+}
+
+/* Estilo para ícones de editar e deletar */
+.icon-editar,
+.icon-deletar {
+  cursor: pointer; /* Cursor de clique para os ícones */
+  color: #007bff; /* Azul Bootstrap para ícone editar */
+}
+
+.icon-deletar {
+  color: #dc3545; /* Vermelho Bootstrap para ícone deletar */
+}
+
+/* Media query para ajustes em telas menores */
+@media (max-width: 768px) {
+  .btn-criar-treino,
+  .btn-acoes {
+      font-size: 0.75rem; /* Tamanho ainda menor para os botões em telas pequenas */
+  }
+
+  /* Ajustes para o layout da tabela em telas menores */
+  .table-treinos thead {
+      display: none; /* Oculta cabeçalho da tabela */
+  }
+
+  .table-treinos,
+  .table-treinos tbody,
+  .table-treinos tr,
+  .table-treinos td {
+      display: block; /* Torna a tabela um bloco para scroll horizontal */
+      width: 100%;
+  }
+
+  .table-treinos tr {
+      margin-bottom: 0.625rem; /* Espaçamento entre as linhas */
+  }
+
+  .table-treinos td {
+      text-align: right; /* Alinha o texto à direita */
+      padding-left: 50%; /* Espaço para o conteúdo */
+      position: relative;
+  }
+
+  .table-treinos td::before {
+      content: attr(data-label); /* Usa o atributo data-label para os títulos */
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-right: 0.625rem; /* Espaçamento */
+      text-align: left; /* Alinha os títulos à esquerda */
+      font-weight: bold; /* Negrito para os títulos */
+  }
+}
+
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
   header {

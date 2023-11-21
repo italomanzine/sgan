@@ -21,10 +21,88 @@
     {% include 'header.html' %}
     <div class="center-content"> 
         {% block content %}
-            <div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
-                {% include 'in-development.html' %}
+        <div class="container mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <h4>Agenda de Treinos</h4>
+                        {% if user.is_superuser or user.is_staff %}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="createTrainingModal">
+                            Criar Treino
+                        </button>
+                        {% else %}
+                        <button type="button" class="btn btn-primary disabled">
+                            Criar Treino
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Data do Treino</th>
+                                <th>Descrição</th>
+                                <th>Atletas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui entrariam os dados dos treinos -->
+                        </tbody>
+                    </table>      
+                </div>
             </div>
+        </div>
+        
+        <!-- Modal para criação de treino -->
+        <div class="modal fade" id="createTrainingModal" tabindex="-1" role="dialog" aria-labelledby="createTrainingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createTrainingModalLabel">Novo Treino</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{% url 'create_treino' %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <!-- Campos do formulário -->
+                            <div class="form-group">
+                                <label for="trainingDescription">Descrição do Treino</label>
+                                <textarea class="form-control" id="trainingDescription" name="descricao" rows="3" maxlength="1000"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="trainingDate">Data do Treino</label>
+                                <input type="date" class="form-control" id="trainingDate" name="data_treino">
+                            </div>
+                            <div class="form-group">
+                                <label for="trainingPSE">PSE do Treinador</label>
+                                <select class="form-control" id="trainingPSE" name="PSE_treinador">
+                                    <!-- Opções da escala de Borg -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectAthletes">Selecionar Atletas</label>
+                                <select multiple class="form-control" id="selectAthletes" name="atletas">
+                                    <!-- Opções de atletas -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Criar Treino</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         {% endblock %}      
-    </div>   
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 </body>
 </html>
