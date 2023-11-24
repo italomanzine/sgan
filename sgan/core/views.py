@@ -22,6 +22,9 @@ def dashboard(request):
 def resultados(request):
     return render(request, 'resultados.html', {'titulo_pagina': 'Resultados'})
 
+def provas(request):
+    return render(request, 'provas.html', {'titulo_pagina': 'Provas'})
+
 # def login(request):
 #     return render(request, 'login.html')
 
