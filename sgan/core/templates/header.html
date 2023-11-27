@@ -1,152 +1,26 @@
 <header>
-    <div class="header-container">
-      <h1>{{ titulo_pagina }}</h1>      
-    </div>
-    <div class="user-nav">
-      {% if user.is_superuser or user.is_staff %}
-        <a href="{% url 'admin:index' %}" class="admin-link" title="Administração">
-          <i class="fas fa-tools"></i>
-        </a>
-      {% endif %}
-      <a href="{% url 'dashboard' %}" class="home-link" title="Dashboard">
-          <i class="fas fa-home"></i>
-      </a>
-      {% if user.is_authenticated %}
-        <span class="username">Olá, {{ user.get_full_name|default:user.username }}</span>
-        <form action="{% url 'logout' %}" method="post" class="logout-form">
-          {% csrf_token %}
-          <button type="submit" class="logout-button" title="Logout">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
-        </form>
-      {% else %}
-        <a href="{% url 'login' %}" class="login-link" title="Login">
-          <i class="fas fa-sign-in-alt"></i>
-        </a>
-      {% endif %}
-    </div>
-</header>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Seu Site{% endblock %}</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-HJl5YYNq8FkIWp1MT5vZu6m80uMl2UtdnfbPzfaZL8r5IQq0y7duPeNfKgX5K7VI" crossorigin="anonymous">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        header {
-            background-color: #fff;
-            padding: 10px 15px; /* Ajuste o valor do padding conforme necessário */
-            border-bottom: 2px solid #ccc;
-            text-align: right;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-sizing: border-box;
-        }
-
-        .container {
-            width: 50%;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-sizing: border-box;
-        }
-
-       
-        #dynamic-page-title {
-            font-family: 'Times New Roman', serif; /* Altere a fonte conforme desejado */
-            font-size: 24px; /* Altere o tamanho da fonte conforme desejado */
-            font-weight: bold; /* Adicione negrito */
-            color: #333; /* Altere a cor do texto conforme desejado */
-        }
-
-        .user-info img {
-            margin-left: 10px;
-            margin-bottom: -4px;
-        }
-
-        .logout-btn {
-            cursor: pointer;
-            background-color: #162c39;
-            color: #fff;
-            text-decoration: none;
-            padding: 5px 10px; /* Ajuste o padding do botão conforme necessário */
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin-bottom: 0;
-        }
-
-        .logout-btn i {
-            margin-right: 5px;
-        }
-
-        .logout-btn:hover {
-            background-color: #0f1f28;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <!-- Adicione um identificador ao <span> no header.html -->
-            <span id="dynamic-page-title">{% block page_name %}Nome da Página{% endblock %}</span>
-
-            <!-- Adicione este script no header.html -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    // Obtém o caminho da URL da página atual
-                    var currentPath = window.location.pathname;
-
-                    // Mapeia o caminho da URL para o texto desejado no cabeçalho
-                    var titleMap = {
-                        '/resultados/': 'Resultados',
-                        '/treinos/': 'Treinos',
-                        // Adicione mais mapeamentos conforme necessário
-                    };
-                    
-
-                    // Obtém o texto correspondente ao caminho da URL
-                    var pageTitle = titleMap[currentPath] || 'Nome da Página';
-
-                    // Atualiza dinamicamente o texto no cabeçalho
-                    document.getElementById("dynamic-page-title").innerText = pageTitle;
-                });
-            </script>
-            
-
-            {% if user.is_authenticated %}
-                {% if user.is_staff %}
-                    <div class="user-info">
-                        <i class="fas fa-user user-icon"></i>
-                        <span id="welcome-message"> Bem-vindo, Treinadoro: {{ user.get_full_name|default:user.username }}</span>
-                    </div>
-                {% else %}
-                    <div class="user-info">
-                        <i class="fas fa-user user-icon"></i>
-                        <span id="welcome-message">Bem-vindo Atleta: {{ user.get_full_name|default:user.username }}</span>
-                    </div>
-                {% endif %}
-                <a class="logout-btn" href="{% url 'logout' %}">
-                    <i class="fas fa-sign-out-alt logout-icon"></i>
-                    Logout
-                </a>
-            {% endif %}
-        </div>
-    </header>
-
-    <div>
-        {% block content %}{% endblock %}
+    <div class="header-container">
+        <h1>{{ titulo_pagina }}</h1>      
     </div>
-</body>
-</html>
+    
+    {% if user.is_authenticated %}
+        <div class="user-info">
+            <i class="fas fa-user user-icon " ></i>
+            <span id="welcome-message" class="username">
+                Bem-vindo, {% if user.is_staff %}Treinador(a){% else %}Atleta{% endif %}: {{ user.get_full_name|default:user.username }}
+            </span>
+        </div>
+    {% endif %}
+    
+    <div class="header-icons">
+        <a href="{% url 'dashboard' %}" class="home-link" title="Dashboard">
+            <i class="fas fa-home"></i>
+        </a>
+        <a class="logout-button" href="{% url 'logout' %}">
+            <i class="fas fa-sign-out-alt logout-icon"></i>
+            Logout
+        </a>
+    </div>
+</header>

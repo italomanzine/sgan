@@ -9,9 +9,9 @@ body {
 
 /* Container de Login */
 .login-container {
-  max-width: 400px;
+  max-width: 400px; /* Define a largura máxima do contêiner */
   margin: 0px auto; /* Centraliza o container */
-  padding: 30px;
+  padding: 30px;    /* Adiciona espaço interno de 30 pixels ao redor do conteúdo dentro do contêiner */
   background-color: #162c39; /* Cor de fundo escura para contraste */
   border-radius: 10px; /* Bordas arredondadas */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
@@ -199,10 +199,12 @@ header {
   align-items: center; /* Alinhamento vertical dos itens */
   border-bottom: 1px solid #dee2e6; /* Linha divisória na parte inferior */
   position: fixed; /* Fixa o header no topo */
-  top: 0;
+  top: 0;  /* Define a posição do topo do elemento em relação ao topo do seu contêiner pai (ou do viewport) como 0. */
   left: 250px; /* Espaço para o sidebar */
-  right: 0;
+  right: 0;  /* Define a posição do lado direito do elemento em relação ao seu contêiner pai como 0. */
   z-index: 1050; /* Garante que o header fica acima do sidebar */
+  box-sizing: border-box; /* Garante que a largura e altura do elemento incluam bordas e preenchimento. */
+  flex-wrap: nowrap; /* Prevent wrapping onto multiple lines */
 }
 
 /* Estilo do container do título dentro do cabeçalho */
@@ -211,6 +213,8 @@ header {
   font-size: 1.5rem; /* Tamanho da fonte do título */
   color: #333; /* Cor do texto escuro */
   background: #f8f9fa; /* Cor de fundo claro */
+  display: flex;
+  align-items: center;
 }
 
 /* Estilo da navegação do usuário */
@@ -233,26 +237,64 @@ header {
 .username, .logout-form, .admin-link, .home-link, .login-link {
   font-size: 1rem; /* Tamanho da fonte do nome do usuário */
   color: #555; /* Cor do texto do nome do usuário */
+  
+}
+
+/* Estilo para o contêiner de informações do usuário */
+.user-info {
+  display: flex; /* Estilo para o contêiner de informações do usuário */
+  align-items: center; /* Alinha os itens verticalmente no centro do contêiner. */
+}
+
+/* Estilo para o contêiner de ícones no cabeçalho */
+.header-icons {
+  display: flex; /* Define o modelo de layout como flexível. */
+  gap: 1rem;  /* Define o espaçamento entre os elementos como 1 rem. */
+  align-items: center; /* Alinha os itens verticalmente no centro do contêiner. */
 }
 
 /* Estilo adicional para os ícones do FontAwesome usados nos links */
 .fas {
   margin-right: 8px; /* Espaço à direita do ícone */
+  
+}
+
+/* Estilo para a mensagem de boas-vindas */
+#welcome-message {
+  font-weight: bold;        /* Para tornar o texto em negrito */
+  font-family: 'Arial', sans-serif;  /* Define a família de fontes para 'Arial' e, se não disponível, para a fonte sans-serif padrão. */
+  color: #162c39;           /* código de cor desejado */
+  font-size: 18px;          /*tamanho de fonte desejado */
 }
 
 /* Estilo para o botão de logout dentro do formulário */
 .logout-button {
-  background: none; /* Remove fundo padrão */
-  border: none; /* Remove borda padrão */
-  cursor: pointer; /* Muda o cursor para indicar clicabilidade */
-  color: #333; /* Cor do ícone de logout */
-  font-size: 1.2rem; /* Tamanho do ícone de logout */
-  padding: 0; /* Remove o espaçamento interno padrão */
+  cursor: pointer;  /* Define o cursor como apontador para indicar que é clicável. */
+  background-color: #162c39; /* Cor de fundo do botão. */
+  color: #fff; /* Cor do texto do botão. */
+  text-decoration: none; /* Remove sublinhado padrão para links. */
+  padding: 5px 10px; /* Ajuste o padding do botão conforme necessário */
+  border-radius: 5px; /* Borda arredondada para um visual mais suave. */
+  transition: background-color 0.3s ease; /* Efeito de transição suave para a cor de fundo. */
+  margin-bottom: 0; /* Remove a margem inferior padrão. */
+  display: inline-block;  /* Certifica-se de que o botão fica em uma linha com outros elementos */
+  margin-left: 10px;      /* Adapte a margem conforme necessário para o espaçamento desejado */
+  width: 100%; /* Faz o botão ocupar 100% da largura do contêiner pai. */
+  box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total do botão. */
+  display: flex; /* Usa flexbox para alinhar os itens horizontalmente */
+  align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+/* Adiciona espaçamento à direita entre o ícone e o texto dentro do botão de logout */
+.logout-button i {
+  margin-right: 8px; /* Adiciona um espaçamento à direita entre o ícone e o texto */
 }
 
 /* Adiciona um efeito visual ao passar o mouse sobre o botão de logout */
 .logout-button:hover {
-  color: #000; /* Escurece a cor do ícone ao passar o mouse */
+  color: #ffffff; /* Escurece a cor do ícone ao passar o mouse */
+  background-color: #162c39; /* Adapte a cor conforme necessário para o fundo ao passar o mouse */
+
 }
 
 /* Estilo para esconder o formulário de logout e mostrar apenas o ícone */
@@ -406,4 +448,12 @@ header {
 @keyframes fadeout {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+/* Estilos para telas médias (quando a largura da tela é menor que 768 pixels, por exemplo) */
+@media screen and (max-width: 768px) {
+  .logout-button {
+    width: 100%; /* Faz o botão ocupar a largura total do contêiner */
+    box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total */
+    margin: 10px 0; /* Adapte a margem conforme necessário para o espaçamento desejado */
+  }
 }
