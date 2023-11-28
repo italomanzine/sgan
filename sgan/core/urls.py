@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import atletas, dashboard, index, resultados, treinos, user, login_view, create_treino, provas
+from .views import atletas, dashboard, index, resultados, treinos, user, create_treino, login_view, provas, presenca
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
+from . import views
+
+from .views import provas, create, view, edit, update, delete, create_resultado
 
 urlpatterns = [
     path('', index, name='index'),
@@ -24,9 +27,24 @@ urlpatterns = [
     path('atletas/', atletas, name='atletas'),
     path('treinos/', treinos, name='treinos'),
     path('resultados/', resultados, name='resultados'),
-    path('provas/', provas, name='provas'),
+    path('presenca/', presenca, name='presenca'),    
     
 
     #URLs para treinos
     path('treinos/create/', create_treino, name='create_treino'),
+
+    #para provas 
+    path('provas/', provas, name='provas'),
+    path('provas/create/', create, name='create_prova'),
+    path('provas/<int:pk>/', view, name='view_prova'),
+    path('provas/<int:pk>/edit/', edit, name='edit_prova'),
+    path('provas/<int:pk>/update/', update, name='update_prova'),
+    path('provas/<int:pk>/delete/', delete, name='delete_prova'),
+
+    
+    path('provas/create_resultado/', create_resultado, name='create_resultado'),
+
+    
+
+   
 ]

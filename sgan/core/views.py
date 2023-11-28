@@ -1,10 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomAuthenticationForm, TreinoForm
 from .models import Treino
+
+from .models import Prova, Resultado, ModelUsuario
+from .forms import ProvaForm, ResultadoForm
+
+import logging
+logger = logging.getLogger(__name__)
+
+# ... no início da sua função de view
+logger.info('Mensagem informativa')
+logger.warning('Aviso')
+logger.error('Erro')
 
 
 def index(request):
@@ -24,6 +35,8 @@ def resultados(request):
 
 def provas(request):
     return render(request, 'provas.html', {'titulo_pagina': 'Provas'})
+def presenca(request):
+    return render(request, 'presenca.html', {'titulo_pagina': 'Presença'})
 
 # def login(request):
 #     return render(request, 'login.html')
@@ -82,3 +95,103 @@ def create_treino(request):
         # Se não for uma requisição POST, exibe a página com o formulário de criação de treinos
         form = TreinoForm()
         return render(request, 'create_treino.html', {'form': form})
+
+
+#para prova 
+
+def provas(request):
+    provas_list = Prova.objects.all()
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'provas.html', {'provas_list': provas_list, 'modelusuarios_list': modelusuarios_list})
+
+def create(request):
+    if request.method == 'POST':
+        form = ProvaForm(request.POST)
+        try:
+            if form.is_valid():
+                form.save()
+                print("Prova salva com sucesso!")
+                return redirect('provas')
+            else:
+                print("Formulário inválido:", form.errors)
+        except Exception as e:
+            print("Erro ao salvar a prova:", e)
+    else:
+        form = ProvaForm()
+
+    return render(request, 'provas.html', {'form': form})
+
+def view(request):
+    provas = Prova.objects.all()  # Substitua Prova pelo nome correto do seu modelo
+    return render(request, 'seu_template.html', {'provas': provas})
+
+def edit(request, pk):
+    data = {}
+    data['prova'] = Prova.objects.get(pk=pk)
+    data['form'] = ProvaForm(instance=data['prova'])
+    return render(request, 'form.html', data)
+
+def update(request, pk):
+    data = {}
+    data['prova'] = Prova.objects.get(pk=pk)
+    form = ProvaForm(request.POST or None, instance=data['prova'])
+    if form.is_valid():
+        form.save()
+        return redirect('provas')
+
+def delete(request, pk):
+    prova = Prova.objects.get(pk=pk)
+    prova.delete()
+    return redirect('provas')
+
+#para Resultado 
+def resultado(request):
+    # Retrieve all Prova objects from the database
+    #reultado_list = Resultado.objects.all()
+    return render(request, 'provas.html')
+
+def create_resultado(request):
+    if request.method == 'POST':
+        form = ResultadoForm(request.POST)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('resultado')  # Altere para a URL correta da página de resultados
+            else:
+                print("Formulário inválido:", form.errors)
+        except Exception as e:
+            print("Erro ao salvar o resultado:", e)
+    else:
+        form = ResultadoForm()
+
+    provas_list = Prova.objects.all()
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'provas.html', {'form': form, 'provas_list': provas_list, 'modelusuarios_list': modelusuarios_list})
+
+
+#para presença 
+
+def presenca(request):
+    presenca_list = Prova.objects.all()
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'provas.html', {'provas_list': presenca_list, 'modelusuarios_list': modelusuarios_list})
+
+
+def create_presenca(request):
+    if request.method == 'POST':
+        form = ResultadoForm(request.POST)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('resultado')  # Altere para a URL correta da página de resultados
+            else:
+                print("Formulário inválido:", form.errors)
+        except Exception as e:
+            print("Erro ao salvar o resultado:", e)
+    else:
+        form = ResultadoForm()
+
+    provas_list = Prova.objects.all()
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'provas.html', {'form': form, 'provas_list': provas_list, 'modelusuarios_list': modelusuarios_list})
+

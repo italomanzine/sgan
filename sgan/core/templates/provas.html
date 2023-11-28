@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Provas{% endblock %}</title>
@@ -13,6 +13,14 @@
     <script src="{% static 'js/sidebar.js' %}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 
+    <!-- Add the new CSS code here  -->
+    <style>
+        #historicoProvas {
+            max-height: 500px; /* Set the maximum height for the table */
+            overflow-y: scroll; /* Enable vertical scrollbar if the content overflows */
+        }
+    </style> 
+
     {% block extra_head %}
     {% endblock %}
 </head>
@@ -21,10 +29,196 @@
     {% include 'header.html' %}
     <div class="center-content"> 
         {% block content %}
-            <div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
-                {% include 'in-development.html' %}
+        <div class="container mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="titulo-provas" id="tituloProvas">Histórico de Provas</h4>
+                        {% if user.is_superuser or user.is_staff %}
+                            <button type="button" class="btn btn-primary" id="addProvaBtn">
+                                Adicionar Nova Prova
+                            </button>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                <div class="card-body" id="historicoProvas">
+                    <!-- Campo de busca -->
+                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar por nome...">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Nome da Prova</th>
+                                <th>Distância</th>
+                                <th>Estilo</th>  
+                                <th>Naipe</th> 
+                                <th>   </th>               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aqui entrariam os dados dos provas -->
+                            {% for prova in provas_list %}
+                            <input type="hidden" id="editProvaId" name="edit_prova_id">
+                            <tr>
+                                <td>{{ prova.nome_prova }}</td>
+                                <td>{{ prova.distancia }}</td>
+                                <td>{{ prova.estilo }}</td>
+                                <td>{{ prova.naipe }}</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm editar-prova" data-prova-id="{{ prova.pk }}">Editar</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>      
+                </div>
+                <div class="card-body" id="addProvaFormContainer" style="display: none;">
+                    <!-- Formulário para adicionar nova prova -->
+                    <h2>Criar Nova Prova</h2>
+                    <form id="provaForm" method="post" action="{% url 'create_prova' %}">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="id_nome_prova">Nome da Prova:</label>
+                                <input type="text" class="form-control" name="nome_prova" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="id_distancia">Distância:</label>
+                                <input type="number" class="form-control" name="distancia" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="id_estilo">Estilo:</label>
+                                <input type="text" class="form-control" name="estilo" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="id_naipe">Naipe:</label>
+                                <input type="text" class="form-control" name="naipe" required>
+                            </div>
+                        </div>
+
+                        <!-- Botões para o formulário de nova prova -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" name="action" value="salvar_prova">Salvar Prova</button>
+                            <button type="button" class="btn btn-secondary" id="cancelarAdicao">Cancelar</button>
+                            <button type="button" class="btn btn-success" id="salvarVincularAtleta">Salvar e Vincular Atleta</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulário para adicionar novo resultado -->
+                <div class="card-body" id="resultadoFormContainer" style="display: none;">
+                    <h2>Criar Resultado</h2>
+                    <form method="post" action="{% url 'create_resultado' %}">
+                        {% csrf_token %}
+                        
+                        <!-- Select Prova -->
+                        <div class="form-group">
+                            <label for="id_prova">Prova:</label>
+                            <select class="custom-select" name="prova" required>
+                                {% for prova in provas_list %}
+                                    <option value="{{ prova.pk }}">{{ prova.nome_prova }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Select ModelUsuario -->
+                        <div class="form-group">
+                            <label for="id_modelusuario">Usuário:</label>
+                            <select class="custom-select" name="modelusuario" required>
+                                {% for usuario in modelusuarios_list %}
+                                    <option value="{{ usuario.pk }}">{{ usuario.first_name }} {{ usuario.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Other Resultado Fields -->
+                        <div class="form-group">
+                            <label for="id_tempo">Tempo:</label>
+                            <input type="text" class="form-control" name="tempo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_classificacao">Classificação:</label>
+                            <input type="number" class="form-control" name="classificacao" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_data_prova">Data da Prova:</label>
+                            <input type="date" class="form-control" name="data_prova" required>
+                        </div>
+                        
+                        <!-- Botões para o formulário de novo resultado -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Salvar Resultado</button>
+                            <button type="button" class="btn btn-success" id="salvarVincularMaisAtleta">Salvar e Vincular Mais Atleta</button>
+                            <button type="button" class="btn btn-secondary" id="cancelarResultado">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
         {% endblock %}      
-    </div>   
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <script>
+        $(document).ready(function () {
+            // Adiciona um evento para exibir o formulário de cadastro quando o botão for clicado
+            $("#addProvaBtn").click(function () {
+                $(".titulo-provas, #historicoProvas, #addProvaBtn").hide();
+                $("#tituloProvas, #addProvaFormContainer").show();
+                // Atualiza o texto do título quando for para o formulário
+                $("#tituloProvas").text("Cadastrando Provas");
+            });
+
+            // Adiciona um evento para cancelar a adição da prova e voltar ao histórico
+            $("#cancelarAdicao").click(function () {
+                // Redireciona para a página provas.html
+                window.location.href = "{% url 'provas' %}";
+            });
+
+            // Adiciona um evento para mostrar o formulário de resultado e ocultar o de nova prova
+            $("#salvarVincularAtleta").click(function () {
+                $("#addProvaFormContainer").hide();
+                $("#resultadoFormContainer").show();
+            });
+
+            // Adiciona um evento para cancelar o resultado e voltar ao histórico
+            $("#cancelarResultado").click(function () {
+                // Redireciona para a página provas.html
+                window.location.href = "{% url 'provas' %}";
+            });
+
+            // Evento para salvar e vincular mais atleta
+            $("#salvarVincularMaisAtleta").click(function () {
+                // Adicione aqui a lógica para salvar e abrir um novo formulário para vincular mais atletas
+            });
+
+            // Adiciona um evento para filtrar a tabela com base no valor de entrada
+            $("#searchInput").on("input", function () {
+                var searchTerm = $(this).val().toLowerCase();
+                $("#historicoProvas tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                });
+            });
+
+            // Adiciona um evento para exibir o formulário de edição quando o botão "Editar" for clicado
+            $(".editar-prova").click(function () {
+                var provaId = $(this).data("prova-id");
+                $(".titulo-provas, #historicoProvas, #addProvaBtn").hide();
+                $("#tituloProvas, #addProvaFormContainer").show();
+                $("#tituloProvas").text("Editando Prova");
+            });
+        });
+    </script>
 </body>
 </html>

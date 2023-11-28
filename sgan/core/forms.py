@@ -2,7 +2,7 @@ from multiprocessing import AuthenticationError
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from django import forms
-from .models import DescricaoTreino, ModelUsuario, Treino
+from .models import DescricaoTreino, ModelUsuario, Treino, Prova, Resultado
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -54,3 +54,66 @@ class DescricaoTreinoForm(forms.ModelForm):
     class Meta:
         model = DescricaoTreino
         fields = ['treino', 'modelusuario', 'PSE_treinador', 'PSE_atleta', 'presenca', 'data_treino', 'distancia_total']
+
+
+# PARA PROVAS  
+class ProvaForm(forms.ModelForm):
+    class Meta:
+        model = Prova
+        #fields = ['nome_prova', 'estilo']
+        fields = ['nome_prova', 'distancia', 'estilo', 'naipe']
+
+    def save(self, commit=True):
+        # Verifique se os dados estão sendo manipulados corretamente
+        instancia_prova = super().save(commit=False)
+        instancia_prova.distancia = self.cleaned_data['distancia']
+        instancia_prova.naipe = self.cleaned_data['naipe']
+        
+        if commit:
+            instancia_prova.save()
+        return instancia_prova
+
+#PARA RESULTADOS
+class ResultadoForm(forms.ModelForm):
+    class Meta:
+        model = Resultado
+        fields = ['modelusuario', 'prova', 'tempo', 'classificacao', 'data_prova']
+
+    def clean_tempo(self):
+        tempo = self.cleaned_data['tempo']
+
+        # Adicione validações adicionais se necessário
+
+        return tempo
+
+    def save(self, commit=True):
+        instancia_resultado = super().save(commit=False)
+        instancia_resultado.tempo = self.cleaned_data['tempo']
+        instancia_resultado.classificacao = self.cleaned_data['classificacao']
+        
+        if commit:
+            instancia_resultado.save()
+        return instancia_resultado
+    
+
+#PARA PRESENÇA
+class PresencaForm(forms.ModelForm):
+    class Meta:
+        model = Resultado
+        fields = ['modelusuario', 'prova', 'tempo', 'classificacao', 'data_prova']
+
+    def clean_tempo(self):
+        tempo = self.cleaned_data['tempo']
+
+        # Adicione validações adicionais se necessário
+
+        return tempo
+
+    def save(self, commit=True):
+        instancia_resultado = super().save(commit=False)
+        instancia_resultado.tempo = self.cleaned_data['tempo']
+        instancia_resultado.classificacao = self.cleaned_data['classificacao']
+        
+        if commit:
+            instancia_resultado.save()
+        return instancia_resultado
