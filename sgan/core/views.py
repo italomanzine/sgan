@@ -82,3 +82,7 @@ def create_treino(request):
         # Se não for uma requisição POST, exibe a página com o formulário de criação de treinos
         form = TreinoForm()
         return render(request, 'create_treino.html', {'form': form})
+    
+def treinos_list(request):
+    treinos = Treino.objects.all()  # Obter todos os treinos do banco de dados
+    return render(request, 'treinos.html', {'treinos': treinos})

@@ -29,4 +29,7 @@ urlpatterns = [
 
     #URLs para treinos
     path('treinos/create/', create_treino, name='create_treino'),
+    # path('treinos/editar/<int:treino_id>/', editar_treino, name='editar_treino'),
+    # path('treinos/responder/<int:treino_id>/', responder_pse, name='responder_pse'),
+    # path('treinos/deletar/<int:treino_id>/', deletar_treino, name='deletar_treino'),
 ]

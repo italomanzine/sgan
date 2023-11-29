@@ -371,6 +371,16 @@ header {
   color: #dc3545; /* Vermelho Bootstrap para ícone deletar */
 }
 
+/* Centralizar Modal Criar Treino */
+.modal-centered {
+  margin-top: 50px; /* Ajuste este valor conforme necessário */
+}
+
+.btn {
+  padding: .5rem 1rem; /* Padroniza o padding dos botões */
+  margin-bottom: 10px; /* Adiciona uma margem no topo para alinhamento */
+}
+
 /* Media query para ajustes em telas menores */
 @media (max-width: 768px) {
   .btn-criar-treino,
