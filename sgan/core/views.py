@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomAuthenticationForm, TreinoForm
-from .models import Treino
+from .forms import CustomAuthenticationForm, DescricaoTreinoForm, TreinoForm
+from .models import DescricaoTreino, Treino
+from django.db import transaction
 
 
 def index(request):
@@ -62,27 +64,92 @@ def signup_view(request):
     return render(request, 'signup.html', {'form': form})
 
 # A view que lida com a criação de treinos
+@login_required
 def create_treino(request):
-    if not (request.user.is_superuser or request.user.is_staff):
-        # Se o usuário não tem permissão, retorna à página de treinos com uma mensagem de erro
-        messages.error(request, 'Você não tem permissão para criar treinos.')
-        return redirect('treinos')
-    
+    treino_form = TreinoForm(request.POST or None)
+    descricao_treino_form = DescricaoTreinoForm(request.POST or None)
+
     if request.method == 'POST':
-        form = TreinoForm(request.POST)
-        if form.is_valid():
-            # Se o formulário é válido, salva o novo treino e redireciona para a página de treinos
-            form.save()
-            messages.success(request, 'Treino criado com sucesso!')
+        if not (request.user.is_superuser or request.user.is_staff):
+            messages.error(request, 'Você não tem permissão para criar treinos.')
             return redirect('treinos')
+
+        if treino_form.is_valid() and descricao_treino_form.is_valid():
+            with transaction.atomic():
+                treino = treino_form.save()
+                descricao_treino = descricao_treino_form.save(commit=False)
+                descricao_treino.treino = treino
+                descricao_treino.save()
+                messages.success(request, 'Treino criado com sucesso!')
+                return redirect('treinos')
         else:
-            # Se o formulário não é válido, retorna à página com o formulário e mensagens de erro
-            return render(request, 'treinos.html', {'form': form})
-    else:
-        # Se não for uma requisição POST, exibe a página com o formulário de criação de treinos
-        form = TreinoForm()
-        return render(request, 'create_treino.html', {'form': form})
-    
+            # Se os formulários não forem válidos, as mensagens de erro serão adicionadas automaticamente
+            pass
+
+    # O contexto sempre incluirá os formulários, seja em uma requisição GET ou POST com dados inválidos
+    return render(request, 'treinos.html', {
+        'treino_form': treino_form,
+        'descricao_treino_form': descricao_treino_form
+    })
+
+# A view que lida com a visualização de treinos   
+@login_required
 def treinos_list(request):
-    treinos = Treino.objects.all()  # Obter todos os treinos do banco de dados
-    return render(request, 'treinos.html', {'treinos': treinos})
+    descricao_treinos = DescricaoTreino.objects.select_related('treino', 'modelusuario').all()
+    context = {
+        'titulo_pagina': 'Treinos',
+        'descricao_treinos': descricao_treinos,
+        'pode_editar': request.user.has_perm('app.change_treino'),
+        'pode_deletar': request.user.has_perm('app.delete_treino'),
+        'pode_responder': request.user.has_perm('app.responder_pse'),
+    }
+    return render(request, 'treinos.html', context)
+
+# A view que lida com a edição de treinos
+@permission_required('app.change_treino', raise_exception=True)
+def editar_treino(request, treino_id):
+    treino = get_object_or_404(Treino, id=treino_id)
+    if request.method == 'POST':
+        form = TreinoForm(request.POST, instance=treino)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Treino atualizado com sucesso!')
+            return redirect('nome_da_url_para_lista_de_treinos')
+    else:
+        form = TreinoForm(instance=treino)
+    return render(request, 'editar_treino.html', {'form': form})
+
+# A view que lida com a exclusão de treinos
+@permission_required('app.delete_treino', raise_exception=True)
+def deletar_treino(request, treino_id):
+    treino = get_object_or_404(Treino, id=treino_id)
+    treino.delete()
+    messages.success(request, 'Treino deletado com sucesso!')
+    return redirect('nome_da_url_para_lista_de_treinos')
+
+# A view que lida com a resposta ao PSE
+# @login_required
+# def responder_pse(request, treino_id):
+#     # Pegar a instancia do treino
+#     treino = get_object_or_404(Treino, id=treino_id)
+#     # Pegar a instancia da descrição do treino para o usuário logado e o treino selecionado
+#     descricao_treino, created = DescricaoTreino.objects.get_or_create(treino=treino, modelusuario=request.user)
+
+#     # Verifica se o usuário é um atleta
+#     if not request.user.has_perm('app.responder_pse'):
+#         messages.error(request, 'Você não tem permissão para responder ao PSE.')
+#         return redirect('nome_da_url_para_lista_de_treinos')
+
+#     if request.method == 'POST':
+#         form = DescricaoTreinoForm(request.POST, instance=descricao_treino)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'PSE e presença respondidos com sucesso!')
+#             return redirect('nome_da_url_para_lista_de_treinos')
+#         else:
+#             messages.error(request, 'Houve um erro ao responder ao PSE.')
+#     else:
+#         form = DescricaoTreinoForm(instance=descricao_treino)
+    
+#     # Renderiza a página com o formulário para responder ao PSE
+#     return render(request, 'responder_pse.html', {'form': form, 'treino': treino})

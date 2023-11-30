@@ -16,6 +16,7 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-5e2ESR8Ycmos6g3gAKr1Jvwye8sW4U1u/cAKulfVJnkakCcMqhOudbtPnvJ+nbv7"
       crossorigin="anonymous"
     />
 
@@ -44,7 +45,11 @@
                 Criar Treino
               </button>
               {% else %}
-              <button type="button" class="btn btn-primary disabled">
+              <button
+                type="button"
+                class="btn btn-primary {% if not user.is_staff %}disabled{% endif %}"
+                aria-disabled="{% if not user.is_staff %}true{% endif %}"
+              >
                 Criar Treino
               </button>
               {% endif %}
@@ -61,25 +66,25 @@
                 </tr>
               </thead>
               <tbody>
-                {% for treino in treinos %}
+                {% for desc_treino in descricao_treinos %}
                 <tr>
-                  <td>{{ treino.data_do_treino }}</td>
-                  <td>{{ treino.descricao }}</td>
-                  <td>{{ treino.atletas.all|join:", " }}</td>
-                  <!-- Presumindo que atletas é um campo de relação muitos-para-muitos -->
+                  <!-- Renderização listagem -->
+                  <td>{{ desc_treino.data_treino }}</td>
+                  <td>{{ desc_treino.treino.descricao }}</td>
+                  <td>{{ desc_treino.modelusuario.get_full_name }}</td>
+                  <!-- Ícones de ações -->
                   <td>
-                    <!-- Ícones de ações -->
-                    <a href="{% url 'editar_treino' treino.id %}"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                    <a href="{% url 'responder_pse' treino.id %}"
-                      ><i class="fas fa-reply"></i
-                    ></a>
-                    <a
-                      href="{% url 'deletar_treino' treino.id %}"
-                      class="text-danger"
-                      ><i class="fas fa-trash-alt"></i
-                    ></a>
+                    {% if pode_editar %}
+                    <a href="{% url 'editar_treino' desc_treino.treino.id %}">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    {% endif %} {% if pode_deletar %}
+                    <a href="{% url 'deletar_treino' desc_treino.treino.id %}">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %} {% if pode_responder %}
+
+                    {% endif %}
                   </td>
                 </tr>
                 {% empty %}
@@ -173,7 +178,11 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
                   Cancelar
                 </button>
                 <button type="submit" class="btn btn-primary">
@@ -185,6 +194,24 @@
         </div>
       </div>
       {% endblock %}
+    </div>
+    <div class="container mt-4">
+      {% for message in messages %}
+      <div
+        class="alert alert-{{ message.tags }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
     </div>
     <!-- Script para abrir o modal -->
     <script>

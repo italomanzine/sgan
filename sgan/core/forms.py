@@ -53,4 +53,5 @@ class TreinoForm(forms.ModelForm):
 class DescricaoTreinoForm(forms.ModelForm):
     class Meta:
         model = DescricaoTreino
-        fields = ['treino', 'modelusuario', 'PSE_treinador', 'PSE_atleta', 'presenca', 'data_treino', 'distancia_total']
+        exclude = ['treino']  # Exclui o campo treino do formulário, pois ele será definido na view
+        fields = ['treino', 'PSE_treinador', 'data_treino']

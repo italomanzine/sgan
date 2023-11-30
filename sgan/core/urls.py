@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import atletas, dashboard, index, resultados, treinos, user, login_view, create_treino, provas
+from .views import atletas, dashboard, deletar_treino, editar_treino, index, resultados, treinos_list, user, login_view, create_treino, provas
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
@@ -22,14 +22,14 @@ urlpatterns = [
     # URLs do Menu Lateral
     path('dashboard/', dashboard, name='dashboard'),
     path('atletas/', atletas, name='atletas'),
-    path('treinos/', treinos, name='treinos'),
+    path('treinos/', treinos_list, name='treinos'),
     path('resultados/', resultados, name='resultados'),
     path('provas/', provas, name='provas'),
     
 
     #URLs para treinos
     path('treinos/create/', create_treino, name='create_treino'),
-    # path('treinos/editar/<int:treino_id>/', editar_treino, name='editar_treino'),
+    path('treinos/editar/<int:treino_id>/', editar_treino, name='editar_treino'),
     # path('treinos/responder/<int:treino_id>/', responder_pse, name='responder_pse'),
-    # path('treinos/deletar/<int:treino_id>/', deletar_treino, name='deletar_treino'),
+    path('treinos/deletar/<int:treino_id>/', deletar_treino, name='deletar_treino'),
 ]
