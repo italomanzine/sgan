@@ -19,6 +19,7 @@
             max-height: 500px; /* Set the maximum height for the table */
             overflow-y: scroll; /* Enable vertical scrollbar if the content overflows */
         }
+        
     </style> 
 
     {% block extra_head %}
@@ -52,22 +53,36 @@
                                 <th>Distância</th>
                                 <th>Estilo</th>  
                                 <th>Naipe</th> 
-                                <th>   </th>               
+                                <th>   </th> 
+                                <th>   </th> 
+                                <th>   </th>                 
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Aqui entrariam os dados dos provas -->
                             {% for prova in provas_list %}
                             <input type="hidden" id="editProvaId" name="edit_prova_id">
-                            <tr>
-                                <td>{{ prova.nome_prova }}</td>
-                                <td>{{ prova.distancia }}</td>
-                                <td>{{ prova.estilo }}</td>
-                                <td>{{ prova.naipe }}</td>
-                                <td>
-                                    <button class="btn btn-info btn-sm editar-prova" data-prova-id="{{ prova.pk }}">Editar</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    
+                                    <td>{{ prova.nome_prova }}</td>
+                                    <td>{{ prova.distancia }}</td>
+                                    <td>{{ prova.estilo }}</td>
+                                    <td>{{ prova.naipe }}</td>
+                                    <td>
+                                        {% if user.is_superuser or user.is_staff %}
+                                            <button class="btn btn-info btn-sm editar-prova" data-prova-id="{{ prova.pk }}">Editar</button>
+                                            <button type="button" class="btn btn-success vincular-atleta-btn">Vincular Atleta</button>
+                                            
+                                            
+                                            <form method="post" action="{% url 'delete_prova' %}" class="delete-form">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="prova_id" value="{{ prova.id }}">
+                                                <button class="btn btn-danger btn-sm deletar-prova" data-prova-id="{{ prova.pk }}">Deletar</button>
+                                            </form>
+                                            
+                                        {% endif %}
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>      
@@ -77,7 +92,7 @@
                     <h2>Criar Nova Prova</h2>
                     <form id="provaForm" method="post" action="{% url 'create_prova' %}">
                         {% csrf_token %}
-
+                        <input type="hidden" name="prova_id" id="provaId" value="">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="id_nome_prova">Nome da Prova:</label>
@@ -106,7 +121,6 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary" name="action" value="salvar_prova">Salvar Prova</button>
                             <button type="button" class="btn btn-secondary" id="cancelarAdicao">Cancelar</button>
-                            <button type="button" class="btn btn-success" id="salvarVincularAtleta">Salvar e Vincular Atleta</button>
                         </div>
                     </form>
                 </div>
@@ -156,7 +170,7 @@
                         <!-- Botões para o formulário de novo resultado -->
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Salvar Resultado</button>
-                            <button type="button" class="btn btn-success" id="salvarVincularMaisAtleta">Salvar e Vincular Mais Atleta</button>
+                            <!--<button type="button" class="btn btn-success" id="salvarVincularMaisAtleta">Salvar e Vincular Mais Atleta</button>-->
                             <button type="button" class="btn btn-secondary" id="cancelarResultado">Cancelar</button>
                         </div>
                     </form>
@@ -187,9 +201,12 @@
             });
 
             // Adiciona um evento para mostrar o formulário de resultado e ocultar o de nova prova
-            $("#salvarVincularAtleta").click(function () {
-                $("#addProvaFormContainer").hide();
-                $("#resultadoFormContainer").show();
+            $(".vincular-atleta-btn").click(function () {
+                
+                $(".titulo-provas, #historicoProvas, #addProvaBtn").hide();
+                $("#tituloProvas, #resultadoFormContainer").show();
+                // Atualiza o texto do título quando for para o formulário
+                $("#tituloProvas").text("Vincular Atletas");
             });
 
             // Adiciona um evento para cancelar o resultado e voltar ao histórico
@@ -200,7 +217,7 @@
 
             // Evento para salvar e vincular mais atleta
             $("#salvarVincularMaisAtleta").click(function () {
-                // Adicione aqui a lógica para salvar e abrir um novo formulário para vincular mais atletas
+               
             });
 
             // Adiciona um evento para filtrar a tabela com base no valor de entrada
@@ -213,11 +230,77 @@
 
             // Adiciona um evento para exibir o formulário de edição quando o botão "Editar" for clicado
             $(".editar-prova").click(function () {
+                // Obtenha o ID da prova da linha clicada
                 var provaId = $(this).data("prova-id");
+
+                // Encontre a linha da tabela correspondente à prova clicada
+                var row = $(this).closest('tr');
+
+                // Obtenha os dados da linha
+                var nomeProva = row.find('td:eq(0)').text();
+                var distancia = row.find('td:eq(1)').text();
+                var estilo = row.find('td:eq(2)').text();
+                var naipe = row.find('td:eq(3)').text();
+
+                // Preencha os campos do formulário com os dados da prova
+                $("#provaForm input[name='nome_prova']").val(nomeProva);
+                $("#provaForm input[name='distancia']").val(parseFloat(distancia)); // Use parseFloat para garantir que seja tratado como número
+                $("#provaForm input[name='estilo']").val(estilo);
+                $("#provaForm input[name='naipe']").val(naipe);
+
+                // Atualize o texto do título quando for para o formulário
+                $("#tituloProvas").text("Editando Prova");
+
+                //Preencha o campo oculto com o ID da prova
+                var provaId = $(this).data("prova-id");
+                $("#provaForm input[name='prova_id']").val(provaId);
+
+                // Exiba o formulário de edição
                 $(".titulo-provas, #historicoProvas, #addProvaBtn").hide();
                 $("#tituloProvas, #addProvaFormContainer").show();
-                $("#tituloProvas").text("Editando Prova");
+                               
             });
+
+            $(".deletar-prova").click(function () {
+                var provaId = $(this).data("prova-id");
+
+                // Confirmar a exclusão
+                var confirmDelete = confirm("Tem certeza de que deseja deletar esta prova?");
+                if (!confirmDelete) {
+                    return false;  // Abortar a exclusão se o usuário cancelar
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'delete_prova' %}",
+                    data: {
+                        prova_id: provaId,
+                        csrfmiddlewaretoken: "{{ csrf_token }}"
+                    },
+                    success: function (data) {
+                        console.log("Resposta do servidor:", data);
+                        if (data.message) {
+                            // Exclusão bem-sucedida, remova a linha da tabela
+                            $("tr[data-prova-id='" + provaId + "']").remove();
+                        } else {
+                            console.error("Erro ao excluir prova:", data.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Erro ao excluir prova:", error);
+                        console.log("Status da resposta:", status);
+                        console.log("Resposta do servidor:", xhr.responseText);
+                    }
+                });
+
+                // Impedir a execução padrão do link
+                return false;
+            });
+
+            
+        
+
+
         });
     </script>
 </body>

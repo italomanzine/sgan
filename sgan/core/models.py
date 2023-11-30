@@ -161,4 +161,3 @@ class Resultado(models.Model):
     classificacao = models.PositiveIntegerField()  # Campo para armazenar a classificação como número inteiro
     data_prova = models.DateField()
 
-

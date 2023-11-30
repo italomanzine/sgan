@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import atletas, dashboard, index, resultados, treinos, user, create_treino, login_view, provas, presenca
+from .views import atletas, dashboard, index, resultados, treinos, user, create_treino, login_view, provas, presenca, novo_usuario
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from . import views
 
-from .views import provas, create, view, edit, update, delete, create_resultado
+from .views import provas, create, view, edit, update, delete_prova, create_resultado
 
 urlpatterns = [
     path('', index, name='index'),
@@ -28,6 +28,9 @@ urlpatterns = [
     path('treinos/', treinos, name='treinos'),
     path('resultados/', resultados, name='resultados'),
     path('presenca/', presenca, name='presenca'),    
+    path('novo_usuario/', novo_usuario, name='novo_usuario'),  
+    path('novo_usuario/', novo_usuario, name='novo_usuario'),  
+    
     
 
     #URLs para treinos
@@ -39,11 +42,14 @@ urlpatterns = [
     path('provas/<int:pk>/', view, name='view_prova'),
     path('provas/<int:pk>/edit/', edit, name='edit_prova'),
     path('provas/<int:pk>/update/', update, name='update_prova'),
-    path('provas/<int:pk>/delete/', delete, name='delete_prova'),
+    path('delete_prova/', delete_prova, name='delete_prova'),
+
+
+    
 
     
     path('provas/create_resultado/', create_resultado, name='create_resultado'),
-
+   
     
 
    

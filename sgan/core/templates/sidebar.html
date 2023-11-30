@@ -38,10 +38,20 @@
           ><span class="link-text">Presença</span></a
         >
       </li>
+      
+      {% if user.is_staff %}
+        <li>
+          <a href="{% url 'novo_usuario' %}">
+            <i class="fas fa-chart-line icon"></i>
+            <span class="link-text">Novo Usuario</span>
+          </a>
+        </li>
+      {% endif %}
+      
     </ul>
   </nav>
 </aside>
 <button class="sidebar-toggle">
   <i class="fas fa-arrow-left"></i>
-  <!--<span>Menu</span><!-- Envolve o texto do menu em um span para esconder quando recolhido -->
+  <!--<span>Menu</span> Envolve o texto do menu em um span para esconder quando recolhido -->
 </button>
