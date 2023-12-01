@@ -9,17 +9,68 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/sidebar.js' %}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 
-    <!-- Add the new CSS code here  -->
+    <!-- Custom Styles -->
     <style>
-        #historicoProvas {
-            max-height: 500px; /* Set the maximum height for the table */
-            overflow-y: scroll; /* Enable vertical scrollbar if the content overflows */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            font-family: 'Roboto', sans-serif; /* Troquei para a fonte Roboto */
         }
-        
+
+        .card {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .card-header {
+            background-color: #ffffff;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .titulo-provas {
+            color: #333;
+            font-size: 24px; /* Ajustei o tamanho da fonte */
+        }
+
+        .btn-primary, .btn-info, .btn-success, .btn-danger, .btn-secondary {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover, .btn-info:hover, .btn-success:hover, .btn-danger:hover, .btn-secondary:hover {
+            background-color: #2077b3;
+            border-color: #2077b3;
+        }
+
+        .custom-select {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        table {
+            color: #333;
+        }
+
+        table thead {
+            background-color: #3498db;
+            color: #ffffff;
+        }
+
+        table th, table td {
+            border: 1px solid #dee2e6;
+        }
+
+        #searchInput {
+            background-color: #f0f8ff; /* Troquei para uma cor mais clara */
+            color: #333;
+        }
     </style> 
 
     {% block extra_head %}
@@ -33,15 +84,14 @@
         <div class="container mt-4">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="titulo-provas" id="tituloProvas">Histórico de Provas</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="titulo-provas">Histórico de Provas</h4>
                         {% if user.is_superuser or user.is_staff %}
                             <button type="button" class="btn btn-primary" id="addProvaBtn">
                                 Adicionar Nova Prova
                             </button>
                         {% endif %}
                     </div>
-                    
                 </div>
                 <div class="card-body" id="historicoProvas">
                     <!-- Campo de busca -->
@@ -53,8 +103,6 @@
                                 <th>Distância</th>
                                 <th>Estilo</th>  
                                 <th>Naipe</th> 
-                                <th>   </th> 
-                                <th>   </th> 
                                 <th>   </th>                 
                             </tr>
                         </thead>
@@ -68,18 +116,16 @@
                                     <td>{{ prova.distancia }}</td>
                                     <td>{{ prova.estilo }}</td>
                                     <td>{{ prova.naipe }}</td>
-                                    <td>
+                                    <td class="d-flex align-items-center">
                                         {% if user.is_superuser or user.is_staff %}
-                                            <button class="btn btn-info btn-sm editar-prova" data-prova-id="{{ prova.pk }}">Editar</button>
-                                            <button type="button" class="btn btn-success vincular-atleta-btn">Vincular Atleta</button>
-                                            
-                                            
+                                            <button class="btn btn-info btn-sm editar-prova mr-2" data-prova-id="{{ prova.pk }}">Editar</button>
+                                            <button type="button" class="btn btn-success btn-sm vincular-atleta-btn mr-2">Vincular Atleta</button>
+
                                             <form method="post" action="{% url 'delete_prova' %}" class="delete-form">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="prova_id" value="{{ prova.id }}">
                                                 <button class="btn btn-danger btn-sm deletar-prova" data-prova-id="{{ prova.pk }}">Deletar</button>
                                             </form>
-                                            
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -100,7 +146,7 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="id_distancia">Distância:</label>
+                                <label for="id_distancia">Distância em Metros:</label>
                                 <input type="number" class="form-control" name="distancia" required>
                             </div>
                         </div>
@@ -130,7 +176,7 @@
                     <h2>Criar Resultado</h2>
                     <form method="post" action="{% url 'create_resultado' %}">
                         {% csrf_token %}
-                        
+
                         <!-- Select Prova -->
                         <div class="form-group">
                             <label for="id_prova">Prova:</label>
@@ -154,7 +200,9 @@
                         <!-- Other Resultado Fields -->
                         <div class="form-group">
                             <label for="id_tempo">Tempo:</label>
-                            <input type="text" class="form-control" name="tempo" required>
+                            <!-- Alterações no campo de tempo -->
+                            <input type="text" class="form-control" name="tempo" required pattern="\d{2}:\d{2}:\d{2}\.\d{6}">
+                            <small>Formato: HH:MM:SS.ssssss</small>
                         </div>
 
                         <div class="form-group">
@@ -166,7 +214,7 @@
                             <label for="id_data_prova">Data da Prova:</label>
                             <input type="date" class="form-control" name="data_prova" required>
                         </div>
-                        
+
                         <!-- Botões para o formulário de novo resultado -->
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Salvar Resultado</button>

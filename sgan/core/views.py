@@ -175,7 +175,7 @@ def create_resultado(request):
         try:
             if form.is_valid():
                 form.save()
-                return redirect('resultado')  # Altere para a URL correta da página de resultados
+                return redirect('provas')  # Altere para a URL correta da página de resultados
             else:
                 print("Formulário inválido:", form.errors)
         except Exception as e:

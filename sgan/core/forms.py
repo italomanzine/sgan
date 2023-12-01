@@ -6,6 +6,11 @@ from .models import DescricaoTreino, ModelUsuario, Treino, Prova, Resultado
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.utils.dateparse import parse_duration
+from datetime import timedelta
+from dateutil.parser import parse
+from datetime import datetime, timedelta
+
 class ModelUsuarioCreateForm(UserCreationForm):
 
     class Meta:
@@ -82,32 +87,17 @@ class ResultadoForm(forms.ModelForm):
     def clean_tempo(self):
         tempo = self.cleaned_data['tempo']
 
-        # Adicione validações adicionais se necessário
+        try:
+            # Verifique se já é um objeto timedelta
+            if isinstance(tempo, timedelta):
+                return tempo
 
-        return tempo
+            # Converta a string de tempo em um objeto timedelta
+            tempo_timedelta = timedelta(seconds=float(tempo))
+        except ValueError:
+            raise forms.ValidationError("Formato de tempo inválido. Use HH:MM:SS.ssssss")
 
-    def save(self, commit=True):
-        instancia_resultado = super().save(commit=False)
-        instancia_resultado.tempo = self.cleaned_data['tempo']
-        instancia_resultado.classificacao = self.cleaned_data['classificacao']
-        
-        if commit:
-            instancia_resultado.save()
-        return instancia_resultado
-    
-
-#PARA PRESENÇA
-class PresencaForm(forms.ModelForm):
-    class Meta:
-        model = Resultado
-        fields = ['modelusuario', 'prova', 'tempo', 'classificacao', 'data_prova']
-
-    def clean_tempo(self):
-        tempo = self.cleaned_data['tempo']
-
-        # Adicione validações adicionais se necessário
-
-        return tempo
+        return tempo_timedelta
 
     def save(self, commit=True):
         instancia_resultado = super().save(commit=False)

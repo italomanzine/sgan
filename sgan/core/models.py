@@ -160,4 +160,3 @@ class Resultado(models.Model):
     tempo = models.DurationField()# exemplo de armazenamento de dados "00:02:30", "01:30:45.000500" vai armazenando de "HH:MM:SS.ssssss" (horas, minutos, segundos e microssegundos).
     classificacao = models.PositiveIntegerField()  # Campo para armazenar a classificação como número inteiro
     data_prova = models.DateField()
-
