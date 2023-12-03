@@ -9,6 +9,7 @@ from .models import Treino
 from django.views import View
 from django.http import JsonResponse
 
+from django.contrib.auth.decorators import login_required
 
 from .models import Prova, Resultado, ModelUsuario
 from .forms import ProvaForm, ResultadoForm
@@ -162,7 +163,7 @@ def delete_prova(request):
         messages.error(request, f"Erro ao excluir a prova: {str(e)}")
         return redirect('provas')
 
-#resultado 
+#PARA COLOCAR OS DADOS NO BANCO DE DADOS DA TABELA DE RESULTADO 
 
 def resultado(request):
     # Retrieve all Prova objects from the database
@@ -186,3 +187,44 @@ def create_resultado(request):
     provas_list = Prova.objects.all()
     modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
     return render(request, 'provas.html', {'form': form, 'provas_list': provas_list, 'modelusuarios_list': modelusuarios_list})
+
+
+#para pagina de atleta
+def atletas(request):
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'atletas.html', {'modelusuarios_list': modelusuarios_list})
+
+def mostrar_atletas(request):
+    if request.method == 'POST':
+        form = ResultadoForm(request.POST)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('atletas')  # Altere para a URL correta da página de resultados
+            else:
+                print("Formulário inválido:", form.errors)
+        except Exception as e:
+            print("ok", e)
+    else:
+        form = ResultadoForm()
+
+    modelusuarios_list = ModelUsuario.objects.all()  # Adicione esta linha
+    return render(request, 'atletas.html', {'form': form, 'modelusuarios_list': modelusuarios_list})
+
+
+def detalhes_atleta(request):
+    atleta_id = request.GET.get('atleta_id')
+    atleta = get_object_or_404(ModelUsuario, pk=atleta_id)
+
+    # Retornando os detalhes do atleta como JSON
+    response_data = {
+        'email': atleta.email,
+        'nome': atleta.get_full_name(),
+        'nascimento': str(atleta.data_nascimento),
+        'sexo': atleta.get_sexo_display(),
+        # Adicione outros campos conforme necessário
+    }
+
+    return JsonResponse(response_data)
+
+#PARA A PAGINA DE RESULTADO 

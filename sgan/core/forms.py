@@ -107,3 +107,6 @@ class ResultadoForm(forms.ModelForm):
         if commit:
             instancia_resultado.save()
         return instancia_resultado
+    
+
+#PARA PAGINA DE ATLETAS

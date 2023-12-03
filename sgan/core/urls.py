@@ -46,10 +46,15 @@ urlpatterns = [
 
 
     
-
+    #para pagina de atleta 
     path('resultado/', resultado, name='resultado'),
     path('provas/create_resultado/', create_resultado, name='create_resultado'),
-   
+
+    #PARA PAGINA DE RESULTADO
+
+  
+
+
     
 
    

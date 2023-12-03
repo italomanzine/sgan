@@ -460,4 +460,136 @@ header {
 
 
 /*PARA A PAGINA DE PROVAS*/
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: 'Roboto', sans-serif; /* Troquei para a fonte Roboto */
+}
 
+.card {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+}
+
+.card-header {
+  background-color: #ffffff;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.titulo-provas {
+  color: #333;
+  font-size: 24px; /* Ajustei o tamanho da fonte */
+}
+
+.btn-primary, .btn-info, .btn-success, .btn-danger, .btn-secondary {
+  background-color: #3498db;
+  border-color: #3498db;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-info:hover, .btn-success:hover, .btn-danger:hover, .btn-secondary:hover {
+  background-color: #2077b3;
+  border-color: #2077b3;
+}
+
+.custom-select {
+  background-color: #ffffff;
+  color: #333;
+}
+
+table {
+  color: #333;
+}
+
+table thead {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+table th, table td {
+  border: 1px solid #dee2e6;
+}
+
+#searchInput {
+  background-color: #f0f8ff; /* Troquei para uma cor mais clara */
+  color: #333;
+}
+
+
+
+
+
+/*PARA A PAGINA DE ATLETAS*/
+body {
+  font-family: 'Roboto', sans-serif; /* Fonte mais moderna */
+  background-color: #f4f4f4; /* Fundo mais claro */
+  color: #333; /* Cor do texto mais escura */
+}
+
+.container {
+  background-color: #ffffff; /* Fundo branco */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #3498db; /* Azul mais escuro */
+  border: none;
+  transition: background-color 0.3s ease; /* Animação de transição */
+}
+
+.btn-primary:hover {
+  background-color: #2980b9; /* Azul mais escuro ao passar o mouse */
+}
+
+.custom-select {
+  background-color: #ffffff; /* Fundo branco */
+  color: #333; /* Cor do texto mais escura */
+  border: 1px solid #ccc; /* Borda mais clara */
+  transition: border-color 0.3s ease, color 0.3s ease; /* Animação de transição */
+}
+
+.custom-select:focus {
+  border-color: #3498db; /* Borda azul ao focar */
+  color: #000; /* Cor do texto mais escura ao focar */
+}
+
+.detalhes-atleta {
+  background-color: #ffffff; /* Fundo branco */
+  color: #333; /* Cor do texto mais escura */
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out forwards; /* Adicionando animação de fadeIn */
+}
+
+/* Adicionando animação de fadeIn para os detalhes do atleta */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Estilo para o texto "Buscar Atletas" */
+h2.mb-4 {
+  color: #103852; /* Azul mais escuro */
+  text-align: center;
+}
+
+/* Estilo para os links na barra de navegação */
+.sidebar a {
+  color: #333; /* Cor do texto mais escura */
+  transition: color 0.3s ease; /* Animação de transição */
+}
+
+.sidebar a:hover {
+  color: #2980b9; /* Azul mais escuro ao passar o mouse */
+}
