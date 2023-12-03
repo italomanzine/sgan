@@ -75,16 +75,23 @@
                   <!-- Ícones de ações -->
                   <td>
                     {% if pode_editar %}
-                    <a href="{% url 'editar_treino' desc_treino.treino.id %}">
+                    <a
+                      href="javascript:void(0)"
+                      data-toggle="modal"
+                      data-target="#createTrainingModal"
+                      data-treinoid="{{ desc_treino.treino.id }}"
+                      data-descricao="{{ desc_treino.treino.descricao }}"
+                      data-datatrain="{{ desc_treino.data_treino|date:'Y-m-d' }}"
+                      data-psetreinador="{{ desc_treino.PSE_treinador }}"
+                      class="edit-btn"
+                    >
                       <i class="fas fa-edit"></i>
                     </a>
                     {% endif %} {% if pode_deletar %}
                     <a href="{% url 'deletar_treino' desc_treino.treino.id %}">
                       <i class="fas fa-trash-alt"></i>
                     </a>
-                    {% endif %} {% if pode_responder %}
-
-                    {% endif %}
+                    {% endif %} {% if pode_responder %} {% endif %}
                   </td>
                 </tr>
                 {% empty %}
@@ -101,17 +108,17 @@
       <!-- Modal para criação de treino -->
       <div
         class="modal fade modal-centered"
-        id="createTrainingModal"
+        id="trainingModal"
         tabindex="-1"
         role="dialog"
-        aria-labelledby="createTrainingModalLabel"
+        aria-labelledby="trainingModalLabel"
         aria-hidden="true"
       >
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="createTrainingModalLabel">
-                Novo Treino
+              <h5 class="modal-title" id="trainingModalLabel">
+                Criar/Editar Treino
               </h5>
               <button
                 type="button"
@@ -122,10 +129,14 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="{% url 'create_treino' %}" method="post">
+            <form
+              action="{% url 'create_treino' %}"
+              method="post"
+              id="trainingForm"
+            >
               {% csrf_token %}
+              <input type="hidden" name="treino_id" id="treinoId" value="" />
               <div class="modal-body">
-                <!-- Campos do formulário -->
                 <div class="form-group">
                   <label for="trainingDescription">Descrição do Treino</label>
                   <textarea
@@ -173,7 +184,7 @@
                     id="selectAthletes"
                     name="atletas"
                   >
-                    <!-- Opções de atletas -->
+                    <!-- Opções de atletas serão adicionadas aqui dinamicamente -->
                   </select>
                 </div>
               </div>
@@ -185,7 +196,11 @@
                 >
                   Cancelar
                 </button>
-                <button type="submit" class="btn btn-primary">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="trainingFormSubmitButton"
+                >
                   Criar Treino
                 </button>
               </div>
@@ -193,31 +208,62 @@
           </div>
         </div>
       </div>
-      {% endblock %}
-    </div>
-    <div class="container mt-4">
-      {% for message in messages %}
-      <div
-        class="alert alert-{{ message.tags }} alert-dismissible fade show"
-        role="alert"
-      >
-        {{ message }}
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
+      <div class="container mt-4">
+        {% for message in messages %}
+        <div
+          class="alert alert-{{ message.tags }} alert-dismissible fade show"
+          role="alert"
         >
-          <span aria-hidden="true">&times;</span>
-        </button>
+          {{ message }}
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
+      {% endblock %}
     </div>
     <!-- Script para abrir o modal -->
     <script>
       $(document).ready(function () {
         $("#openCreateTrainingModal").on("click", function () {
-          $("#createTrainingModal").modal("show");
+          $("#createTrainingModalLabel").text("Novo Treino");
+          $("#trainingFormSubmitButton").text("Criar Treino");
+          $("#treinoId").val("");
+          $("#trainingForm").attr("action", '{% url "create_treino" %}');
+          // Resetar os campos do formulário aqui, se necessário
+          $("#trainingModal").modal("show");
+        });
+
+        $(".edit-btn").on("click", function () {
+          var treinoId = $(this).data("treinoid");
+          var descricao = $(this).data("descricao");
+          var dataTreino = $(this).data("datatrain");
+          var pseTreinador = $(this).data("psetreinador");
+
+          // Preencher os dados no formulário
+          $("#treinoId").val(treinoId);
+          $("#trainingDescription").val(descricao);
+          $("#trainingDate").val(dataTreino);
+          $("#trainingPSE").val(pseTreinador);
+
+          // Alterar o texto do botão e da label
+          $("#createTrainingModalLabel").text("Editar Treino");
+          $("#trainingFormSubmitButton").text("Salvar");
+
+          // Alterar o action do formulário para a URL de edição
+          $("#trainingForm").attr(
+            "action",
+            "{% url 'editar_treino' 0 %}".replace("0", treinoId)
+          );
+
+          // Abrir o modal
+          $("#trainingModal").modal("show");
         });
       });
     </script>

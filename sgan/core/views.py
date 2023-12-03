@@ -114,7 +114,8 @@ def editar_treino(request, treino_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Treino atualizado com sucesso!')
-            return redirect('nome_da_url_para_lista_de_treinos')
+            # Novamente, certifique-se de que 'lista_de_treinos' é o nome correto da URL.
+            return redirect('treinos')
     else:
         form = TreinoForm(instance=treino)
     return render(request, 'editar_treino.html', {'form': form})
@@ -125,7 +126,8 @@ def deletar_treino(request, treino_id):
     treino = get_object_or_404(Treino, id=treino_id)
     treino.delete()
     messages.success(request, 'Treino deletado com sucesso!')
-    return redirect('nome_da_url_para_lista_de_treinos')
+    # Certifique-se de que 'lista_de_treinos' é o nome correto da URL para a lista de treinos.
+    return redirect('treinos')
 
 # A view que lida com a resposta ao PSE
 # @login_required
