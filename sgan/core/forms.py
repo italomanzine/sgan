@@ -2,7 +2,7 @@ from multiprocessing import AuthenticationError
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from django import forms
-from .models import ModelUsuario
+from .models import DescricaoTreino, ModelUsuario, Treino
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -44,3 +44,14 @@ class CustomAuthenticationForm(AuthenticationForm):
     def clean_username(self):
         username = self.cleaned_data['username']
         return User.objects.normalize_email(username)
+    
+class TreinoForm(forms.ModelForm):
+    class Meta:
+        model = Treino
+        fields = ['descricao']  # Inclua apenas os campos que existem no modelo Treino
+
+class DescricaoTreinoForm(forms.ModelForm):
+    class Meta:
+        model = DescricaoTreino
+        exclude = ['treino']  # Exclui o campo treino do formulário, pois ele será definido na view
+        fields = ['treino', 'PSE_treinador', 'data_treino']

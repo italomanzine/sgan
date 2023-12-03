@@ -138,13 +138,13 @@ class Treino(models.Model):
 
 
 class DescricaoTreino(models.Model):
-    treino = models.ForeignKey(Treino, on_delete=models.CASCADE)
-    modelusuario = models.ForeignKey(ModelUsuario, on_delete=models.CASCADE)
-    PSE_treinador = models.DecimalField(max_digits=2, decimal_places=2)
-    PSE_atleta = models.DecimalField(max_digits=2, decimal_places=2)
-    presença = models.BooleanField()
-    data_treino = models.DateField()
-    distancia_total = models.DecimalField(max_digits=7, decimal_places=2)
+    treino = models.ForeignKey(Treino, on_delete=models.CASCADE, null = True)
+    modelusuario = models.ForeignKey(ModelUsuario, on_delete=models.CASCADE, null = True)
+    PSE_treinador = models.IntegerField(null = True)
+    PSE_atleta = models.IntegerField(null = True)
+    presenca = models.BooleanField(null = True)
+    data_treino = models.DateField(null = True)
+    distancia_total = models.IntegerField(null = True)
 
 class Prova(models.Model):
     # Campos do modelo Prova (adapte de acordo com suas necessidades)
