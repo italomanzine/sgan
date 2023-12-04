@@ -1,10 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>404</title>
-</head>
-<body>
-    <h1>Página não encontrada</h1>
-</body>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SGAN - Página Não Encontrada</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    {% include 'header.html' %} {% include 'sidebar.html' %}
+    <div class="center-content">
+      <center>
+        <h1>Oops! Página Não Encontrada.</h1>
+        <p>
+          Desculpe, mas a página que você está procurando não existe, foi
+          removida, teve seu nome alterado ou está temporariamente indisponível.
+        </p>
+        <a href="/">Voltar para a Página Inicial</a>
+      </center>
+    </div>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+  </body>
 </html>

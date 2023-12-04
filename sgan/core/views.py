@@ -28,6 +28,12 @@ logger.error('Erro')
 def index(request):
     return render(request, 'index.html', {'titulo_pagina': 'Página Inicial'})
 
+def error_404(request, exception):
+    return render(request, '404.html', {'titulo_pagina': 'Página não encontrada'})
+
+def error_500(request):
+    return render(request, '500.html', {'titulo_pagina': 'Erro no servidor'})
+
 def treinos(request):
     return render(request, 'treinos.html', {'titulo_pagina': 'Treinos'})
 

@@ -1,11 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>500</title>
-</head>
-<body>
-    <h1>Erro no processamento</h1>
-    <h2>Erro 500</h2>
-</body>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SGAN - Página Não Encontrada</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    {% include 'header.html' %} {% include 'sidebar.html' %}
+    <div class="center-content">
+        <center>
+            <h1>Erro Interno do Servidor</h1>
+            <p>Desculpe, ocorreu um erro inesperado. Por favor, tente novamente mais tarde.</p>
+            <a href="/">Voltar para a Página Inicial</a>
+        </center>
+    </div>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+  </body>
 </html>
