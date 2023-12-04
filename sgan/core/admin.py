@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import ModelUsuarioCreateForm, ModelUsuarioChangeForm
 from .models import ModelUsuario
 
-@admin.register(ModelUsuario)
+@admin.register(ModelUsuario)  
 class ModelUsuarioAdmin(UserAdmin):
     add_form=ModelUsuarioCreateForm  #o CreateForm passara a ser o formulario para adicionar novos usuarios 
     form= ModelUsuarioChangeForm #o ChargeForm servira para alteração dos usuarios 
@@ -17,7 +17,7 @@ class ModelUsuarioAdmin(UserAdmin):
     fieldsets=(
         (None, {'fields':('email', 'password')}),
         ('Informações pessoais', {'fields':('first_name', 'last_name', 'fone', 'data_nascimento','sexo', 'cpf','endereco','curso', 'matricula', 'socio')} ),
-        ('permissoes',{'fields':('is_active', 'is_staff', 'groups', 'user_permissions')}),
+        ('permissoes',{'fields':('is_active', 'is_staff')}),
     )
 
 
