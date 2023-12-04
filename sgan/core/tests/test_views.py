@@ -53,24 +53,34 @@ class TreinosTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.User = get_user_model()
+        cls.User = get_user_model()        
 
     def setUp(self):
         super().setUp()
-        self.staff_user = self.User.objects.create_user(
-            email='staff@example.com',
-            password='testpassword123',
-            is_staff=True
-        )
-        self.regular_user = self.User.objects.create_user(
-            email='user@example.com',
-            password='testpassword123'
-        )
+        # Define treinos_url using the 'reverse' function to get the URL for the 'treinos' view
+        self.treinos_url = reverse('treinos')
 
-        # Adicionar permissões após o usuário ser criado
-        change_permission = Permission.objects.get(codename='change_treino')
-        delete_permission = Permission.objects.get(codename='delete_treino')
-        self.staff_user.user_permissions.add(change_permission, delete_permission)
+        User = get_user_model()
+        # Ensure a unique CPF for each user
+        staff_cpf = '123.456.789-05'
+        regular_cpf = '123.456.789-06'
+        if not User.objects.filter(cpf=staff_cpf).exists():
+            self.staff_user = User.objects.create_user(
+                email='staff@example.com',
+                password='testpassword123',
+                cpf=staff_cpf,
+                is_staff=True
+            )
+            change_permission = Permission.objects.get(codename='change_treino')
+            delete_permission = Permission.objects.get(codename='delete_treino')
+            self.staff_user.user_permissions.add(change_permission, delete_permission)
+        
+        if not User.objects.filter(cpf=regular_cpf).exists():
+            self.regular_user = User.objects.create_user(
+                email='user@example.com',
+                password='testpassword123',
+                cpf=regular_cpf
+            )
         
     def test_treinos_page_status_code_for_staff(self):
         self.client.login(email='staff@example.com', password='testpassword123')
@@ -86,7 +96,7 @@ class TreinosTestCase(TestCase):
         self.client.login(email='user@example.com', password='testpassword123')
         response = self.client.get(self.treinos_url)
         # Verifique se o botão está na resposta e está desabilitado.
-        self.assertContains(response, 'btn btn-primary disabled', html=True)
+        self.assertContains(response, '<button type="button" class="btn btn-primary disabled"', html=True)
 
     def test_create_treino_button_not_visible_for_regular_user(self):
         self.client.login(email='user@example.com', password='testpassword123')
