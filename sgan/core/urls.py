@@ -8,8 +8,8 @@ from . import views
 from .views import provas, create, view, edit, update, delete_prova, create_resultado
 
 urlpatterns = [
-    path('index/', index, name='index'),
-    path('user/', user, name='user'),
+    path('index/', login_required(index), name='index'),
+    path('user/', login_required(user), name='user'),
 
     # URL para a view de login
     path('', login_view, name='login'),
