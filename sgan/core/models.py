@@ -112,6 +112,7 @@ class ModelUsuario(AbstractUser):
     def __str__(self):
         return self.email
 
+
     objects = UsuarioManager()#com isso especificicamos parao django usar o noss manager e não o padrao
     
 
