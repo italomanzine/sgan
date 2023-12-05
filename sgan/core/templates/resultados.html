@@ -16,10 +16,15 @@
     {% block extra_head %}
     {% endblock %}
 </head>
-<body> 
+<body>
     {% include 'sidebar.html' %}
     {% include 'header.html' %}
-    {% include 'in-development.html' }
-    
+    <div class="center-content"> 
+        {% block content %}
+            <div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
+                {% include 'in-development.html' %}
+            </div>
+        {% endblock %}      
+    </div> 
 </body>
 </html>

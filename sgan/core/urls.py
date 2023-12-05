@@ -15,7 +15,10 @@ handler404 = 'core.views.error_404'
 handler500 = 'core.views.error_500'
 
 urlpatterns = [
-    # Autenticação e Gerenciamento de Usuários
+    path('index/', login_required(index), name='index'),
+    path('user/', login_required(user), name='user'),
+
+    # URL para a view de login
     path('', login_view, name='login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

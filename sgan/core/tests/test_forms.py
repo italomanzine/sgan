@@ -33,7 +33,7 @@ class ModelUsuarioCreateFormTest(TestCase):
 
 class CustomAuthenticationFormTest(TestCase):
     def test_clean_username(self):
-        user = mommy.make('myapp.ModelUsuario', email='test@example.com')
+        user = mommy.make('ModelUsuario', email='test@example.com')
         form_data = {
             'username': 'Test@Example.com',  # Test email normalization
             'password': 'password'
@@ -70,8 +70,8 @@ class ProvaFormTest(TestCase):
 class ResultadoFormTest(TestCase):
     def test_clean_tempo(self):
         form_data = {
-            'modelusuario': mommy.make('myapp.ModelUsuario').pk,
-            'prova': mommy.make('myapp.Prova').pk,
+            'modelusuario': mommy.make('ModelUsuario').pk,
+            'prova': mommy.make('Prova').pk,
             'tempo': '00:01:30.0',
             'classificacao': 1,
             'data_prova': '2023-01-01'
@@ -83,8 +83,8 @@ class ResultadoFormTest(TestCase):
 
     def test_form_save(self):
         form_data = {
-            'modelusuario': mommy.make('myapp.ModelUsuario').pk,
-            'prova': mommy.make('myapp.Prova').pk,
+            'modelusuario': mommy.make('ModelUsuario').pk,
+            'prova': mommy.make('Prova').pk,
             'tempo': '00:01:30.0',
             'classificacao': 1,
             'data_prova': '2023-01-01'
