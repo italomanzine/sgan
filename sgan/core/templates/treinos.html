@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Treinos{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-5e2ESR8Ycmos6g3gAKr1Jvwye8sW4U1u/cAKulfVJnkakCcMqhOudbtPnvJ+nbv7"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% block extra_head %} {% endblock %}
+  </head>
+  <body>
+    {% include 'sidebar.html' %} {% include 'header.html' %}
+    <div class="center-content">
+      {% block content %}
+      <div class="container mt-4">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex justify-content-between">
+              <h4>Agenda de Treinos</h4>
+              {% if user.is_superuser or user.is_staff %}
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="openCreateTrainingModal"
+              >
+                Criar Treino
+              </button>
+              {% else %}
+              <button
+                type="button"
+                class="btn btn-primary {% if not user.is_staff %}disabled{% endif %}"
+                aria-disabled="{% if not user.is_staff %}true{% endif %}"
+              >
+                Criar Treino
+              </button>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Data do Treino</th>
+                  <th>Descrição</th>
+                  <th>Atletas</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for desc_treino in descricao_treinos %}
+                <tr>
+                  <!-- Renderização listagem -->
+                  <td>{{ desc_treino.data_treino }}</td>
+                  <td>{{ desc_treino.treino.descricao }}</td>
+                  <td>{{ desc_treino.modelusuario.get_full_name }}</td>
+                  <!-- Ícones de ações -->
+                  <td>
+                    {% if pode_editar %}
+                    <a
+                      href="javascript:void(0)"
+                      data-toggle="modal"
+                      data-target="#createTrainingModal"
+                      data-treinoid="{{ desc_treino.treino.id }}"
+                      data-descricao="{{ desc_treino.treino.descricao }}"
+                      data-datatrain="{{ desc_treino.data_treino|date:'Y-m-d' }}"
+                      data-psetreinador="{{ desc_treino.PSE_treinador }}"
+                      class="edit-btn"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    {% endif %} {% if pode_deletar %}
+                    <a href="{% url 'deletar_treino' desc_treino.treino.id %}">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %} {% if pode_responder %} {% endif %}
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="4">Nenhum treino encontrado.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="container mt-4">
+          {% for message in messages %}
+          <div
+            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+            role="alert"
+          >
+            {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Modal para criação de treino -->
+      <div
+        class="modal fade modal-centered"
+        id="trainingModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="trainingModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="trainingModalLabel">
+                Criar/Editar Treino
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form
+              action="{% url 'create_treino' %}"
+              method="post"
+              id="trainingForm"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="treino_id" id="treinoId" value="" />
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="trainingDescription">Descrição do Treino</label>
+                  <textarea
+                    class="form-control"
+                    id="trainingDescription"
+                    name="descricao"
+                    rows="3"
+                    maxlength="1000"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="trainingDate">Data do Treino</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="trainingDate"
+                    name="data_treino"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="trainingPSE">PSE do Treinador</label>
+                  <select
+                    class="form-control"
+                    id="trainingPSE"
+                    name="PSE_treinador"
+                  >
+                    <option value="0">0 - REPOUSO</option>
+                    <option value="1">1 - DEMASIADO LEVE</option>
+                    <option value="2">2 - MUITO MUITO LEVE</option>
+                    <option value="3">3 - MUITO LEVE</option>
+                    <option value="4">4 - LEVE</option>
+                    <option value="5">5 - LEVE-MODERADO</option>
+                    <option value="6">6 - MODERADO</option>
+                    <option value="7">7 - MODERADO-INTENSO</option>
+                    <option value="8">8 - INTENSO</option>
+                    <option value="9">9 - MUITO INTENSO</option>
+                    <option value="10">10 - EXAUSTIVO</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="selectAthletes">Selecionar Atletas</label>
+                  <select
+                    multiple
+                    class="form-control"
+                    id="selectAthletes"
+                    name="atletas"
+                  >
+                    <!-- Opções de atletas serão adicionadas aqui dinamicamente -->
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="trainingFormSubmitButton"
+                >
+                  Criar Treino
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endblock %}
+    </div>
+    <!-- Script para abrir o modal -->
+    <script>
+      $(document).ready(function () {
+        $("#openCreateTrainingModal").on("click", function () {
+          $("#createTrainingModalLabel").text("Novo Treino");
+          $("#trainingFormSubmitButton").text("Criar Treino");
+          $("#treinoId").val("");
+          $("#trainingForm").attr("action", '{% url "create_treino" %}');
+          // Resetar os campos do formulário aqui, se necessário
+          $("#trainingModal").modal("show");
+        });
+
+        $(".edit-btn").on("click", function () {
+          var treinoId = $(this).data("treinoid");
+          var descricao = $(this).data("descricao");
+          var dataTreino = $(this).data("datatrain");
+          var pseTreinador = $(this).data("psetreinador");
+
+          // Preencher os dados no formulário
+          $("#treinoId").val(treinoId);
+          $("#trainingDescription").val(descricao);
+          $("#trainingDate").val(dataTreino);
+          $("#trainingPSE").val(pseTreinador);
+
+          // Alterar o texto do botão e da label
+          $("#createTrainingModalLabel").text("Editar Treino");
+          $("#trainingFormSubmitButton").text("Salvar");
+
+          // Alterar o action do formulário para a URL de edição
+          $("#trainingForm").attr(
+            "action",
+            "{% url 'editar_treino' 0 %}".replace("0", treinoId)
+          );
+
+          // Abrir o modal
+          $("#trainingModal").modal("show");
+        });
+      });
+    </script>
+  </body>
+</html>

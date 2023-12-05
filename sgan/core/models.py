@@ -112,25 +112,9 @@ class ModelUsuario(AbstractUser):
     def __str__(self):
         return self.email
 
+
     objects = UsuarioManager()#com isso especificicamos parao django usar o noss manager e não o padrao
     
-
-#Demais tabelas 
-"""
-class Usuario(models.Model):
-    nome = models.CharField(max_length=50)
-    sexo = models.CharField(max_length=10)
-    curso = models.CharField(max_length=30, blank=True, null=True)
-    #senha = models.CharField(max_length=30)
-    tipo_usuario = models.CharField(max_length=30)
-    socio = models.BooleanField()
-    endereco = models.CharField(max_length=100)
-    email = models.EmailField(max_length=50, unique=True)
-    matricula = models.CharField(max_length=10, blank=True, null=True)
-    telefone = models.CharField(max_length=11)
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length=11)
-"""
 
 class Treino(models.Model):
     # Campos do modelo Treino
@@ -138,13 +122,13 @@ class Treino(models.Model):
 
 
 class DescricaoTreino(models.Model):
-    treino = models.ForeignKey(Treino, on_delete=models.CASCADE)
-    modelusuario = models.ForeignKey(ModelUsuario, on_delete=models.CASCADE)
-    PSE_treinador = models.DecimalField(max_digits=2, decimal_places=2)
-    PSE_atleta = models.DecimalField(max_digits=2, decimal_places=2)
-    presença = models.BooleanField()
-    data_treino = models.DateField()
-    distancia_total = models.DecimalField(max_digits=7, decimal_places=2)
+    treino = models.ForeignKey(Treino, on_delete=models.CASCADE, null = True)
+    modelusuario = models.ForeignKey(ModelUsuario, on_delete=models.CASCADE, null = True)
+    PSE_treinador = models.IntegerField(null = True)
+    PSE_atleta = models.IntegerField(null = True)
+    presenca = models.BooleanField(null = True)
+    data_treino = models.DateField(null = True)
+    distancia_total = models.IntegerField(null = True)
 
 class Prova(models.Model):
     # Campos do modelo Prova (adapte de acordo com suas necessidades)
@@ -160,5 +144,3 @@ class Resultado(models.Model):
     tempo = models.DurationField()# exemplo de armazenamento de dados "00:02:30", "01:30:45.000500" vai armazenando de "HH:MM:SS.ssssss" (horas, minutos, segundos e microssegundos).
     classificacao = models.PositiveIntegerField()  # Campo para armazenar a classificação como número inteiro
     data_prova = models.DateField()
-
-

@@ -1,0 +1,26 @@
+<header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-HJl5YYNq8FkIWp1MT5vZu6m80uMl2UtdnfbPzfaZL8r5IQq0y7duPeNfKgX5K7VI" crossorigin="anonymous">
+
+    <div class="header-container">
+        <h1>{{ titulo_pagina }}</h1>      
+    </div>
+    
+    {% if user.is_authenticated %}
+        <div class="user-info">
+            <i class="fas fa-user user-icon " ></i>
+            <span id="welcome-message" class="username">
+                Bem-vindo, {% if user.is_staff %}Treinador(a){% else %}Atleta{% endif %}: {{ user.get_full_name|default:user.username }}
+            </span>
+        </div>
+    {% endif %}
+    
+    <div class="header-icons">
+        <a href="{% url 'dashboard' %}" class="home-link" title="Dashboard">
+            <i class="fas fa-home"></i>
+        </a>
+        <a class="logout-button" href="{% url 'logout' %}">
+            <i class="fas fa-sign-out-alt logout-icon"></i>
+            Logout
+        </a>
+    </div>
+</header>

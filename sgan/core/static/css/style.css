@@ -4,13 +4,14 @@
 body {
   background-color: #f7f8fc;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Define a tipografia padrão */
+  padding-top: 60px; /* Adiciona um espaço no topo para o header */
 }
 
 /* Container de Login */
 .login-container {
-  max-width: 400px;
-  margin: 100px auto; /* Centraliza o container */
-  padding: 30px;
+  max-width: 400px; /* Define a largura máxima do contêiner */
+  margin: 0px auto; /* Centraliza o container */
+  padding: 30px;    /* Adiciona espaço interno de 30 pixels ao redor do conteúdo dentro do contêiner */
   background-color: #162c39; /* Cor de fundo escura para contraste */
   border-radius: 10px; /* Bordas arredondadas */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
@@ -186,11 +187,247 @@ body {
 
 /* Alinha o botão de alternância à direita quando o sidebar está ativo */
 .sidebar.active ~ .sidebar-toggle {
-  left: 240px; /* Ajuste baseado na largura do sidebar */
+  left: 190px; /* Ajuste baseado na largura do sidebar */
+}
+
+/* Estilo do cabeçalho */
+header {
+  background: #f8f9fa; /* Cor de fundo claro */
+  padding: 0.5rem 1rem; /* Espaçamento interno */
+  display: flex; /* Uso de flexbox para alinhamento */
+  justify-content: space-between; /* Espaçamento entre os itens */
+  align-items: center; /* Alinhamento vertical dos itens */
+  border-bottom: 1px solid #dee2e6; /* Linha divisória na parte inferior */
+  position: fixed; /* Fixa o header no topo */
+  top: 0;  /* Define a posição do topo do elemento em relação ao topo do seu contêiner pai (ou do viewport) como 0. */
+  left: 250px; /* Espaço para o sidebar */
+  right: 0;  /* Define a posição do lado direito do elemento em relação ao seu contêiner pai como 0. */
+  z-index: 1050; /* Garante que o header fica acima do sidebar */
+  box-sizing: border-box; /* Garante que a largura e altura do elemento incluam bordas e preenchimento. */
+  flex-wrap: nowrap; /* Prevent wrapping onto multiple lines */
+}
+
+/* Estilo do container do título dentro do cabeçalho */
+.header-container h1 {
+  margin: 0; /* Remove margem padrão */
+  font-size: 1.5rem; /* Tamanho da fonte do título */
+  color: #333; /* Cor do texto escuro */
+  background: #f8f9fa; /* Cor de fundo claro */
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo da navegação do usuário */
+.user-nav {
+  display: flex; /* Uso de flexbox para alinhamento */
+  align-items: center; /* Alinhamento vertical dos itens */
+  gap: 1rem; /* Espaço entre os elementos da navegação */
+  margin-left: auto; /* Alinha à direita */
+}
+
+/* Estilo dos links da navegação do usuário */
+.user-nav a, .user-nav form {
+  color: #333; /* Cor do texto dos links */
+  text-decoration: none; /* Remove o sublinhado dos links */
+  font-size: 1.2rem; /* Tamanho da fonte dos links */
+  display: flex; /* Garante alinhamento adequado dos ícones e texto */
+}
+
+/* Estilo para o nome do usuário */
+.username, .logout-form, .admin-link, .home-link, .login-link {
+  font-size: 1rem; /* Tamanho da fonte do nome do usuário */
+  color: #555; /* Cor do texto do nome do usuário */
+  
+}
+
+/* Estilo para o contêiner de informações do usuário */
+.user-info {
+  display: flex; /* Estilo para o contêiner de informações do usuário */
+  align-items: center; /* Alinha os itens verticalmente no centro do contêiner. */
+}
+
+/* Estilo para o contêiner de ícones no cabeçalho */
+.header-icons {
+  display: flex; /* Define o modelo de layout como flexível. */
+  gap: 1rem;  /* Define o espaçamento entre os elementos como 1 rem. */
+  align-items: center; /* Alinha os itens verticalmente no centro do contêiner. */
+}
+
+/* Estilo adicional para os ícones do FontAwesome usados nos links */
+.fas {
+  margin-right: 8px; /* Espaço à direita do ícone */
+  
+}
+
+/* Estilo para a mensagem de boas-vindas */
+#welcome-message {
+  font-weight: bold;        /* Para tornar o texto em negrito */
+  font-family: 'Arial', sans-serif;  /* Define a família de fontes para 'Arial' e, se não disponível, para a fonte sans-serif padrão. */
+  color: #162c39;           /* código de cor desejado */
+  font-size: 18px;          /*tamanho de fonte desejado */
+}
+
+/* Estilo para o botão de logout dentro do formulário */
+.logout-button {
+  cursor: pointer;  /* Define o cursor como apontador para indicar que é clicável. */
+  background-color: #162c39; /* Cor de fundo do botão. */
+  color: #fff; /* Cor do texto do botão. */
+  text-decoration: none; /* Remove sublinhado padrão para links. */
+  padding: 5px 10px; /* Ajuste o padding do botão conforme necessário */
+  border-radius: 5px; /* Borda arredondada para um visual mais suave. */
+  transition: background-color 0.3s ease; /* Efeito de transição suave para a cor de fundo. */
+  margin-bottom: 0; /* Remove a margem inferior padrão. */
+  display: inline-block;  /* Certifica-se de que o botão fica em uma linha com outros elementos */
+  margin-left: 10px;      /* Adapte a margem conforme necessário para o espaçamento desejado */
+  width: 100%; /* Faz o botão ocupar 100% da largura do contêiner pai. */
+  box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total do botão. */
+  display: flex; /* Usa flexbox para alinhar os itens horizontalmente */
+  align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+/* Adiciona espaçamento à direita entre o ícone e o texto dentro do botão de logout */
+.logout-button i {
+  margin-right: 8px; /* Adiciona um espaçamento à direita entre o ícone e o texto */
+}
+
+/* Adiciona um efeito visual ao passar o mouse sobre o botão de logout */
+.logout-button:hover {
+  color: #ffffff; /* Escurece a cor do ícone ao passar o mouse */
+  background-color: #162c39; /* Adapte a cor conforme necessário para o fundo ao passar o mouse */
+
+}
+
+/* Estilo para esconder o formulário de logout e mostrar apenas o ícone */
+.logout-form {
+  display: flex; /* Uso de flexbox para alinhamento */
+}
+
+/* Adicione este estilo em seu arquivo style.css */
+.development-container i {
+  color: #007bff; /* Cor Bootstrap para ícones */
+}
+
+.development-container h1 {
+  color: #343a40; /* Cor Bootstrap para títulos */
+}
+
+.development-container p {
+  color: #6c757d; /* Cor Bootstrap para parágrafos */
+}
+
+/* Estilos personalizados para a página de treinos */
+
+/* Estilo para a tabela de treinos */
+.table-treinos {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Estilo para os botões de ação */
+.btn-acoes {
+  font-size: 0.875rem; /* Tamanho menor para os botões de ação */
+}
+
+/* Estilo para o modal de criação de treino */
+.modal-treino .modal-content {
+  border-radius: 0.3rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o botão de criar treino */
+.btn-criar-treino {
+  background-color: #28a745; /* Verde Bootstrap */
+  border-color: #28a745;
+  color: #fff;
+}
+
+.btn-criar-treino:hover {
+  background-color: #218838; /* Verde escuro ao passar o mouse */
+  border-color: #1e7e34;
+}
+
+/* Estilo para o botão desabilitado se o usuário não tiver permissão */
+.btn-criar-treino.disabled, 
+.btn-criar-treino:disabled {
+  background-color: #6c757d; /* Cinza Bootstrap para desabilitado */
+  border-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Estilo para o multi-select de atletas */
+.multi-select-atletas .form-control {
+  height: auto; /* Altura automática para se ajustar ao conteúdo */
+}
+
+/* Estilo para ícones de editar e deletar */
+.icon-editar,
+.icon-deletar {
+  cursor: pointer; /* Cursor de clique para os ícones */
+  color: #007bff; /* Azul Bootstrap para ícone editar */
+}
+
+.icon-deletar {
+  color: #dc3545; /* Vermelho Bootstrap para ícone deletar */
+}
+
+/* Centralizar Modal Criar Treino */
+.modal-centered {
+  margin-top: 50px; /* Ajuste este valor conforme necessário */
+}
+
+.btn {
+  padding: .5rem 1rem; /* Padroniza o padding dos botões */
+  margin-bottom: 10px; /* Adiciona uma margem no topo para alinhamento */
+}
+
+/* Media query para ajustes em telas menores */
+@media (max-width: 768px) {
+  .btn-criar-treino,
+  .btn-acoes {
+      font-size: 0.75rem; /* Tamanho ainda menor para os botões em telas pequenas */
+  }
+
+  /* Ajustes para o layout da tabela em telas menores */
+  .table-treinos thead {
+      display: none; /* Oculta cabeçalho da tabela */
+  }
+
+  .table-treinos,
+  .table-treinos tbody,
+  .table-treinos tr,
+  .table-treinos td {
+      display: block; /* Torna a tabela um bloco para scroll horizontal */
+      width: 100%;
+  }
+
+  .table-treinos tr {
+      margin-bottom: 0.625rem; /* Espaçamento entre as linhas */
+  }
+
+  .table-treinos td {
+      text-align: right; /* Alinha o texto à direita */
+      padding-left: 50%; /* Espaço para o conteúdo */
+      position: relative;
+  }
+
+  .table-treinos td::before {
+      content: attr(data-label); /* Usa o atributo data-label para os títulos */
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-right: 0.625rem; /* Espaçamento */
+      text-align: left; /* Alinha os títulos à esquerda */
+      font-weight: bold; /* Negrito para os títulos */
+  }
 }
 
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
+  header {
+    left: 60px; /* Espaço para o sidebar minimizado */
+  }
+
   .sidebar.active ~ .sidebar-toggle {
     left: calc(100% - 60px); /* Ajusta a posição do botão */
   }
@@ -221,4 +458,148 @@ body {
 @keyframes fadeout {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+/* Estilos para telas médias (quando a largura da tela é menor que 768 pixels, por exemplo) */
+@media screen and (max-width: 768px) {
+  .logout-button {
+    width: 100%; /* Faz o botão ocupar a largura total do contêiner */
+    box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total */
+    margin: 10px 0; /* Adapte a margem conforme necessário para o espaçamento desejado */
+  }
+}
+
+
+/*PARA A PAGINA DE PROVAS*/
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: 'Roboto', sans-serif; /* Troquei para a fonte Roboto */
+}
+
+.card {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+}
+
+.card-header {
+  background-color: #ffffff;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.titulo-provas {
+  color: #333;
+  font-size: 24px; /* Ajustei o tamanho da fonte */
+}
+
+.btn-primary, .btn-info, .btn-success, .btn-danger, .btn-secondary {
+  background-color: #3498db;
+  border-color: #3498db;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-info:hover, .btn-success:hover, .btn-danger:hover, .btn-secondary:hover {
+  background-color: #2077b3;
+  border-color: #2077b3;
+}
+
+.custom-select {
+  background-color: #ffffff;
+  color: #333;
+}
+
+table {
+  color: #333;
+}
+
+table thead {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+table th, table td {
+  border: 1px solid #dee2e6;
+}
+
+#searchInput {
+  background-color: #f0f8ff; /* Troquei para uma cor mais clara */
+  color: #333;
+}
+
+
+
+
+
+/*PARA A PAGINA DE ATLETAS*/
+body {
+  font-family: 'Roboto', sans-serif; /* Fonte mais moderna */
+  background-color: #f4f4f4; /* Fundo mais claro */
+  color: #333; /* Cor do texto mais escura */
+}
+
+.container {
+  background-color: #ffffff; /* Fundo branco */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #3498db; /* Azul mais escuro */
+  border: none;
+  transition: background-color 0.3s ease; /* Animação de transição */
+}
+
+.btn-primary:hover {
+  background-color: #2980b9; /* Azul mais escuro ao passar o mouse */
+}
+
+.custom-select {
+  background-color: #ffffff; /* Fundo branco */
+  color: #333; /* Cor do texto mais escura */
+  border: 1px solid #ccc; /* Borda mais clara */
+  transition: border-color 0.3s ease, color 0.3s ease; /* Animação de transição */
+}
+
+.custom-select:focus {
+  border-color: #3498db; /* Borda azul ao focar */
+  color: #000; /* Cor do texto mais escura ao focar */
+}
+
+.detalhes-atleta {
+  background-color: #ffffff; /* Fundo branco */
+  color: #333; /* Cor do texto mais escura */
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out forwards; /* Adicionando animação de fadeIn */
+}
+
+/* Adicionando animação de fadeIn para os detalhes do atleta */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Estilo para o texto "Buscar Atletas" */
+h2.mb-4 {
+  color: #103852; /* Azul mais escuro */
+  text-align: center;
+}
+
+/* Estilo para os links na barra de navegação */
+.sidebar a {
+  color: #333; /* Cor do texto mais escura */
+  transition: color 0.3s ease; /* Animação de transição */
+}
+
+.sidebar a:hover {
+  color: #2980b9; /* Azul mais escuro ao passar o mouse */
 }
